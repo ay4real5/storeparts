@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { Check, Lock } from "lucide-react";
 import { useCart } from "@/components/cart";
 import { formatCents } from "@/lib/money";
 
@@ -29,7 +30,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
   if (!ready) return <div className="h-96 animate-pulse rounded-lg bg-surface" />;
   if (items.length === 0 && !started) {
     return (
-      <div className="card mx-auto max-w-lg p-10 text-center">
+      <div className="card mx-auto my-16 max-w-lg p-10 text-center">
         <p>Your cart is empty.</p>
         <Link href="/shop" className="btn mt-4">
           Shop parts
@@ -109,12 +110,12 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
   const selectedRate = quote?.rates.find((r) => r.id === rateId);
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[1fr_340px]">
+    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1fr_380px]">
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold">Checkout</h1>
+        <h1 className="display flex items-center gap-3 text-5xl">Checkout <Lock className="h-7 w-7 text-accent" /></h1>
 
-        <form onSubmit={getRates} className="card space-y-4 p-5">
-          <h2 className="font-semibold">1. Contact &amp; shipping address</h2>
+        <form onSubmit={getRates} className="card space-y-4 p-6">
+          <StepTitle n={1} title="Contact & shipping" done={Boolean(quote)} />
           <div>
             <label className="label" htmlFor="email">
               Email
@@ -147,13 +148,13 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         </form>
 
         {quote && (
-          <div className="card space-y-3 p-5">
-            <h2 className="font-semibold">2. Shipping method</h2>
+          <div className="card space-y-3 p-6">
+            <StepTitle n={2} title="Shipping method" done={Boolean(started)} />
             {quote.hazmat && (
               <p className="text-sm text-muted">Your cart has items that can only ship by ground service.</p>
             )}
             {quote.rates.map((r) => (
-              <label key={r.id} className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-3 has-checked:border-accent">
+              <label key={r.id} className="flex cursor-pointer items-center gap-3 rounded-lg border border-border p-4 transition has-checked:border-accent has-checked:bg-accent-soft">
                 <input
                   type="radio"
                   name="rate"
@@ -177,8 +178,8 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         )}
 
         {started && stripePromise && (
-          <div className="card space-y-3 p-5">
-            <h2 className="font-semibold">3. Payment</h2>
+          <div className="card space-y-3 p-6">
+            <StepTitle n={3} title="Payment" done={false} />
             <Elements stripe={stripePromise} options={{ clientSecret: started.clientSecret }}>
               <PayForm started={started} />
             </Elements>
@@ -191,8 +192,8 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         {error && <p className="rounded-md bg-warn/10 px-3 py-2 text-sm text-warn">{error}</p>}
       </div>
 
-      <aside className="card h-fit space-y-2 p-5 text-sm">
-        <h2 className="mb-2 font-semibold">Order summary</h2>
+      <aside className="card h-fit space-y-2 p-6 text-sm lg:sticky lg:top-24">
+        <h2 className="display mb-2 text-2xl">Order summary</h2>
         {items.map((i) => (
           <div key={i.productId} className="flex justify-between gap-2">
             <span>
@@ -209,9 +210,9 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         <Row label="Shipping" cents={started?.totals.shippingCents ?? selectedRate?.rateCents ?? null} />
         <Row label="Tax" cents={started ? started.totals.taxCents : taxEnabled ? null : 0} />
         <hr className="border-border" />
-        <div className="flex justify-between text-base font-bold">
+        <div className="flex items-baseline justify-between font-bold">
           <span>Total</span>
-          <span>{started ? formatCents(started.totals.totalCents) : "—"}</span>
+          <span className="display text-3xl normal-case">{started ? formatCents(started.totals.totalCents) : "—"}</span>
         </div>
       </aside>
     </div>
@@ -258,5 +259,18 @@ function PayForm({ started }: { started: Started }) {
       {error && <p className="text-sm text-warn">{error}</p>}
       <p className="text-xs text-muted">Items are reserved for 30 minutes while you pay.</p>
     </form>
+  );
+}
+
+function StepTitle({ n, title, done }: { n: number; title: string; done: boolean }) {
+  return (
+    <h2 className="display flex items-center gap-3 text-2xl leading-none">
+      <span
+        className={`flex h-8 w-8 items-center justify-center rounded-full text-base text-white ${done ? "bg-ok" : "bg-accent"}`}
+      >
+        {done ? <Check className="h-4 w-4" strokeWidth={3} /> : n}
+      </span>
+      {title}
+    </h2>
   );
 }

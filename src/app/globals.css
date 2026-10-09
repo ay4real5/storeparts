@@ -1,42 +1,65 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f6f7f9;
+  --background: #f3f4f7;
   --surface: #ffffff;
-  --foreground: #14171c;
-  --muted: #5d6673;
-  --border: #e1e4e8;
-  --accent: #d9480f;
-  --accent-strong: #b83b0b;
-  --ok: #2b8a3e;
-  --warn: #c92a2a;
+  --surface-2: #f8f9fb;
+  --foreground: #0f131a;
+  --muted: #5b6575;
+  --border: #e2e5eb;
+  --accent: #ff5a1f;
+  --accent-strong: #e8470e;
+  --accent-soft: #fff0e9;
+  --ok: #16a34a;
+  --ok-soft: #e8f8ee;
+  --warn: #dc2626;
+  --warn-soft: #fdecec;
+  /* Brand chrome (header, hero, footer) stays dark in both themes. */
+  --ink: #0b0e13;
+  --ink-2: #141a24;
+  --ink-3: #1e2633;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0f1115;
-    --surface: #171a20;
-    --foreground: #e8eaed;
-    --muted: #9aa3ae;
-    --border: #2a2f37;
-    --accent: #ff6b2c;
-    --accent-strong: #ff8650;
-    --ok: #51cf66;
-    --warn: #ff6b6b;
+    --background: #0b0e13;
+    --surface: #141a24;
+    --surface-2: #19202c;
+    --foreground: #eef1f5;
+    --muted: #9aa5b5;
+    --border: #252e3c;
+    --accent: #ff6a33;
+    --accent-strong: #ff8456;
+    --accent-soft: #2a1a12;
+    --ok: #34d399;
+    --ok-soft: #10261d;
+    --warn: #f87171;
+    --warn-soft: #2a1515;
+    --ink: #07090d;
+    --ink-2: #10141c;
+    --ink-3: #1a212c;
   }
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
   --color-foreground: var(--foreground);
   --color-muted: var(--muted);
   --color-border: var(--border);
   --color-accent: var(--accent);
   --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
   --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
   --color-warn: var(--warn);
-  --font-sans: var(--font-geist-sans);
+  --color-warn-soft: var(--warn-soft);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --font-sans: var(--font-barlow);
+  --font-display: var(--font-barlow-condensed);
   --font-mono: var(--font-geist-mono);
 }
 
@@ -46,31 +69,47 @@ body {
 }
 
 @layer components {
+  .display {
+    @apply font-display font-bold uppercase tracking-wide;
+  }
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-strong disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-sm font-bold tracking-wide text-white shadow-[0_6px_20px_-6px_var(--accent)] transition hover:-translate-y-px hover:bg-accent-strong active:translate-y-0 disabled:pointer-events-none disabled:opacity-40 disabled:shadow-none;
   }
   .btn-secondary {
-    @apply inline-flex items-center justify-center gap-2 rounded-md border border-border bg-surface px-4 py-2 text-sm font-medium transition hover:border-muted disabled:opacity-50;
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface px-4 py-2.5 text-sm font-semibold transition hover:border-accent hover:text-accent disabled:opacity-50;
   }
   .btn-danger {
-    @apply inline-flex items-center justify-center rounded-md border border-warn px-3 py-1.5 text-sm font-medium text-warn transition hover:bg-warn hover:text-white;
+    @apply inline-flex items-center justify-center rounded-lg border border-warn px-3 py-2 text-sm font-semibold text-warn transition hover:bg-warn hover:text-white;
   }
   .input {
-    @apply w-full rounded-md border border-border bg-surface px-3 py-2 text-sm outline-none focus:border-accent;
+    @apply w-full rounded-lg border border-border bg-surface px-3.5 py-2.5 text-sm outline-none transition placeholder:text-muted/70 focus:border-accent focus:ring-4 focus:ring-accent/15 disabled:opacity-60;
   }
   .label {
-    @apply mb-1 block text-xs font-semibold uppercase tracking-wide text-muted;
+    @apply mb-1.5 block text-xs font-bold uppercase tracking-wider text-muted;
   }
   .card {
-    @apply rounded-lg border border-border bg-surface;
+    @apply rounded-xl border border-border bg-surface;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-bold;
   }
   .table {
     @apply w-full text-left text-sm;
   }
   .table th {
-    @apply border-b border-border px-3 py-2 text-xs font-semibold uppercase tracking-wide text-muted;
+    @apply border-b border-border bg-surface-2 px-3 py-2.5 text-xs font-bold uppercase tracking-wider text-muted;
   }
   .table td {
-    @apply border-b border-border px-3 py-2 align-top;
+    @apply border-b border-border px-3 py-2.5 align-top;
+  }
+  /* Diagonal hazard-stripe texture for dark brand panels. */
+  .bg-stripes {
+    background-image: repeating-linear-gradient(-45deg, rgb(255 255 255 / 0.035) 0 14px, transparent 14px 28px);
+  }
+  .bg-grid {
+    background-image:
+      linear-gradient(rgb(255 255 255 / 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(255 255 255 / 0.05) 1px, transparent 1px);
+    background-size: 44px 44px;
   }
 }

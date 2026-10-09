@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Start a return", robots: { index: fa
 
 export default function ReturnPage(props: PageProps<"/order/[id]/return">) {
   return (
-    <Suspense fallback={<div className="h-96 animate-pulse rounded-lg bg-surface" />}>
+    <Suspense fallback={<div className="mx-auto h-96 max-w-3xl animate-pulse px-4 py-10" />}>
       <Return params={props.params} searchParams={props.searchParams} />
     </Suspense>
   );
@@ -50,11 +50,11 @@ async function Return({
   });
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4">
+    <div className="mx-auto max-w-2xl space-y-4 px-4 py-10">
       <Link href={`/order/${order.id}?token=${token}`} className="text-sm text-muted">
         ← Back to order {orderLabel(order.number)}
       </Link>
-      <h1 className="text-2xl font-bold">Return or core return</h1>
+      <h1 className="display text-5xl">Return or core return</h1>
       <p className="text-sm text-muted">
         Returns are accepted within {config.returnWindowDays} days of purchase; core returns within{" "}
         {config.coreReturnWindowDays} days. Parts must be uninstalled and in original packaging unless defective.

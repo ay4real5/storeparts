@@ -103,7 +103,9 @@ export function CartCount() {
   const { count, ready } = useCart();
   if (!ready || count === 0) return null;
   return (
-    <span className="ml-1 rounded-full bg-accent px-2 py-0.5 text-xs font-bold text-white">{count}</span>
+    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1.5 text-xs font-bold text-white ring-2 ring-ink">
+      {count}
+    </span>
   );
 }
 

@@ -6,8 +6,8 @@ export const metadata: Metadata = { title: "Start a return" };
 
 export default function ReturnsPage() {
   return (
-    <div className="mx-auto max-w-md space-y-4">
-      <h1 className="text-2xl font-bold">Start a return or core return</h1>
+    <div className="mx-auto max-w-md space-y-4 px-4 py-16">
+      <h1 className="display text-5xl">Start a return or core return</h1>
       <p className="text-sm text-muted">
         Find your order to return a part or send back a core for your deposit refund. See the{" "}
         <Link href="/policies#returns" className="underline">

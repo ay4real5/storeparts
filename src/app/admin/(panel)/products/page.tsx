@@ -30,7 +30,7 @@ export default async function ProductsPage(props: PageProps<"/admin/products">) 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
-        <h1 className="text-2xl font-bold">Products</h1>
+        <h1 className="display text-4xl">Products</h1>
         <form className="ml-auto">
           <input name="q" defaultValue={q} placeholder="Search title or SKU" className="input w-64" />
         </form>

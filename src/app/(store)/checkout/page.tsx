@@ -9,7 +9,7 @@ export const metadata: Metadata = { title: "Checkout", robots: { index: false } 
 
 export default function CheckoutPage() {
   return (
-    <Suspense fallback={<div className="h-96 animate-pulse rounded-lg bg-surface" />}>
+    <Suspense fallback={<div className="mx-auto h-96 max-w-3xl animate-pulse px-4 py-10" />}>
       <Checkout />
     </Suspense>
   );

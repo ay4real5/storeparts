@@ -13,7 +13,7 @@ export const metadata: Metadata = { title: "Your order", robots: { index: false 
 
 export default function OrderPage(props: PageProps<"/order/[id]">) {
   return (
-    <Suspense fallback={<div className="h-96 animate-pulse rounded-lg bg-surface" />}>
+    <Suspense fallback={<div className="mx-auto h-96 max-w-3xl animate-pulse px-4 py-10" />}>
       <Order params={props.params} searchParams={props.searchParams} />
     </Suspense>
   );
@@ -45,7 +45,7 @@ async function Order({
   const returnable = ["PAID", "SHIPPED", "DELIVERED", "PARTIALLY_REFUNDED"].includes(order.status);
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6">
+    <div className="mx-auto max-w-3xl space-y-6 px-4 py-10">
       {justPlaced && !paymentFailed && <ClearCartOnMount />}
       {justPlaced && !paymentFailed && (
         <div className="rounded-lg bg-ok/10 p-5">
@@ -60,7 +60,7 @@ async function Order({
       )}
 
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-2xl font-bold">Order {orderLabel(order.number)}</h2>
+        <h2 className="display text-4xl">Order {orderLabel(order.number)}</h2>
         <span className="rounded-full bg-surface px-3 py-1 text-sm font-semibold ring-1 ring-border">
           {order.status === "PENDING_PAYMENT" && justPlaced ? "Confirming payment…" : orderStatusLabel[order.status]}
         </span>
@@ -68,7 +68,7 @@ async function Order({
 
       {outbound.length > 0 && (
         <section className="card space-y-3 p-5">
-          <h3 className="font-semibold">Shipping</h3>
+          <h3 className="display text-xl">Shipping</h3>
           {outbound.map((s) => (
             <div key={s.id} className="text-sm">
               <p>
@@ -89,7 +89,7 @@ async function Order({
       )}
 
       <section className="card p-5">
-        <h3 className="mb-3 font-semibold">Items</h3>
+        <h3 className="display mb-3 text-xl">Items</h3>
         <ul className="space-y-2 text-sm">
           {order.items.map((i) => (
             <li key={i.id} className="flex justify-between gap-4">
@@ -119,7 +119,7 @@ async function Order({
 
       {order.returns.length > 0 && (
         <section className="card space-y-3 p-5">
-          <h3 className="font-semibold">Returns</h3>
+          <h3 className="display text-xl">Returns</h3>
           {order.returns.map((r) => (
             <div key={r.id} className="text-sm">
               <p className="font-medium">

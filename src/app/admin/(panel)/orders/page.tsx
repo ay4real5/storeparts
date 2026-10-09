@@ -42,7 +42,7 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
-        <h1 className="text-2xl font-bold">Orders</h1>
+        <h1 className="display text-4xl">Orders</h1>
         <form className="ml-auto flex gap-2">
           <input type="hidden" name="status" value={status} />
           <input name="q" defaultValue={q} placeholder="Order #, email or name" className="input w-64" />

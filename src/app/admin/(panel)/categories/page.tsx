@@ -19,7 +19,7 @@ export default async function CategoriesPage() {
   });
   return (
     <div className="max-w-3xl space-y-6">
-      <h1 className="text-2xl font-bold">Categories</h1>
+      <h1 className="display text-4xl">Categories</h1>
       <ActionForm action={createCategory} resetOnSuccess submit="Add category" className="card grid gap-3 p-4 sm:grid-cols-[1fr_1fr_auto] sm:items-end" buttonClass="btn">
         <div>
           <label className="label" htmlFor="name">

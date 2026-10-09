@@ -37,7 +37,7 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
         <Link href="/admin/orders" className="text-sm text-muted">
           ← Orders
         </Link>
-        <h1 className="text-2xl font-bold">Order {orderLabel(order.number)}</h1>
+        <h1 className="display text-4xl">Order {orderLabel(order.number)}</h1>
         <span className="rounded-full bg-surface px-3 py-1 text-sm font-semibold ring-1 ring-border">{orderStatusLabel[order.status]}</span>
         {order.hazmat && <span className="rounded bg-warn/15 px-2 py-1 text-xs font-semibold text-warn">HAZMAT: ground only</span>}
       </div>

@@ -30,7 +30,7 @@ export default async function ReturnsPage(props: PageProps<"/admin/returns">) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4">
-        <h1 className="text-2xl font-bold">Returns &amp; cores</h1>
+        <h1 className="display text-4xl">Returns &amp; cores</h1>
         <Link href={showClosed ? "/admin/returns" : "/admin/returns?closed=1"} className="text-sm text-accent">
           {showClosed ? "Show open" : "Show closed"}
         </Link>

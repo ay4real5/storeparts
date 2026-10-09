@@ -46,7 +46,7 @@ export default async function EditProductPage(props: PageProps<"/admin/products/
         <Link href="/admin/products" className="text-sm text-muted">
           ← Products
         </Link>
-        <h1 className="text-2xl font-bold">{product.title}</h1>
+        <h1 className="display text-4xl">{product.title}</h1>
         {product.status === "ACTIVE" && (
           <Link href={`/shop/${product.slug}`} target="_blank" className="text-sm text-accent">
             View in store ↗

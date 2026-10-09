@@ -56,7 +56,7 @@ export default async function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <h1 className="display text-4xl">Dashboard</h1>
 
       {setup.length > 0 && (
         <div className="card border-warn/40 p-4">
@@ -83,7 +83,7 @@ export default async function Dashboard() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="card p-4">
-          <h2 className="mb-3 font-semibold">Ship next</h2>
+          <h2 className="display mb-3 text-xl">Ship next</h2>
           {toShip.length === 0 ? (
             <p className="text-sm text-muted">Nothing waiting. 🎉</p>
           ) : (
@@ -101,7 +101,7 @@ export default async function Dashboard() {
           )}
         </section>
         <section className="card p-4">
-          <h2 className="mb-3 font-semibold">Low stock (≤ {config.lowStockThreshold})</h2>
+          <h2 className="display mb-3 text-xl">Low stock (≤ {config.lowStockThreshold})</h2>
           {lowStock.length === 0 ? (
             <p className="text-sm text-muted">All stocked up.</p>
           ) : (
@@ -126,7 +126,7 @@ function Stat({ label, value, sub, href }: { label: string; value: string; sub?:
   const body = (
     <>
       <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
-      <p className="mt-1 text-2xl font-bold">{value}</p>
+      <p className="display mt-1 text-4xl normal-case">{value}</p>
       {sub && <p className="text-xs text-muted">{sub}</p>}
     </>
   );

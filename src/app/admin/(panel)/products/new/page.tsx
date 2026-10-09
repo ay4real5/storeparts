@@ -16,7 +16,7 @@ export default async function NewProductPage() {
   const categories = await db.category.findMany({ orderBy: { name: "asc" } });
   return (
     <div className="max-w-4xl space-y-4">
-      <h1 className="text-2xl font-bold">New product</h1>
+      <h1 className="display text-4xl">New product</h1>
       <p className="text-sm text-muted">Save first, then add photos and vehicle fitment.</p>
       <ActionForm action={saveProduct} submit="Create product" pending="Saving…" className="card space-y-6 p-6">
         <ProductFields categories={categories} />
