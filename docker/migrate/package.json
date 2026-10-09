@@ -1,0 +1,12 @@
+{
+  "name": "storeparts-migrate",
+  "private": true,
+  "description": "Tools bundled into the runtime image: migrations and admin bootstrap.",
+  "type": "module",
+  "dependencies": {
+    "bcryptjs": "3.0.3",
+    "dotenv": "18.0.6",
+    "pg": "8.23.1",
+    "prisma": "7.10.0"
+  }
+}

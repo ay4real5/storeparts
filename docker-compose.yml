@@ -1,0 +1,41 @@
+# Local development:   docker compose up -d db        (then `npm run dev`)
+# Full stack locally:  docker compose --profile app up -d --build   (http://localhost:3000)
+# Production server:   docker compose --profile app pull && docker compose --profile app up -d
+#                      (uses the image GitHub Actions publishes to GHCR)
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-carparts}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-carparts}
+      POSTGRES_DB: storeparts
+    ports:
+      - "127.0.0.1:5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-carparts} -d storeparts"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    image: ghcr.io/ay4real5/storeparts:latest
+    build: .
+    profiles: ["app"]
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql://${POSTGRES_USER:-carparts}:${POSTGRES_PASSWORD:-carparts}@db:5432/storeparts?schema=public
+    ports:
+      - "3000:3000"
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  uploads:
