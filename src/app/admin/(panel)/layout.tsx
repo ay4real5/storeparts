@@ -13,7 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex flex-1 flex-col">
       <header className="sticky top-0 z-30 border-b border-white/5 bg-ink text-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-2 px-4 py-3">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-2.5 px-4 py-3">
           <div className="flex items-center gap-2">
             <Logo href="/admin" />
             <span className="chip bg-accent/15 text-accent">Admin</span>
@@ -21,17 +21,17 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <AdminNav />
           <div className="ml-auto flex items-center gap-1 text-sm font-semibold">
             <Link href="/" target="_blank" className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-white/70 hover:bg-white/5 hover:text-white">
-              View store <ExternalLink className="h-3.5 w-3.5" />
+              <span className="hidden sm:inline">View store</span> <ExternalLink className="h-4 w-4 sm:h-3.5 sm:w-3.5" />
             </Link>
             <form action={logout}>
               <button className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-white/70 hover:bg-white/5 hover:text-white">
-                <LogOut className="h-3.5 w-3.5" /> Sign out
+                <LogOut className="h-4 w-4 sm:h-3.5 sm:w-3.5" /> <span className="hidden sm:inline">Sign out</span>
               </button>
             </form>
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">{children}</main>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-5 sm:py-8">{children}</main>
     </div>
   );
 }

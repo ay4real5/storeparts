@@ -43,17 +43,17 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="display text-4xl">Orders</h1>
-        <form className="ml-auto flex gap-2">
+        <form className="flex w-full gap-2 sm:ml-auto sm:w-auto">
           <input type="hidden" name="status" value={status} />
-          <input name="q" defaultValue={q} placeholder="Order #, email or name" className="input w-64" />
+          <input name="q" defaultValue={q} placeholder="Order #, email or name" className="input sm:w-64" />
         </form>
       </div>
-      <nav className="flex flex-wrap gap-2 text-sm">
+      <nav className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 text-sm [scrollbar-width:none] sm:mx-0 sm:flex-wrap sm:px-0">
         {FILTERS.map((f) => (
           <Link
             key={f}
             href={`/admin/orders?status=${f}`}
-            className={`rounded-full px-3 py-1 ring-1 ring-border ${f === status ? "bg-accent text-white ring-accent" : "bg-surface"}`}
+            className={`shrink-0 rounded-full px-3 py-1 whitespace-nowrap ring-1 ring-border ${f === status ? "bg-accent text-white ring-accent" : "bg-surface"}`}
           >
             {f === "ALL" ? "All" : f === "PAID" ? "To ship" : orderStatusLabel[f]}
           </Link>
@@ -64,9 +64,9 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
           <thead>
             <tr>
               <th>Order</th>
-              <th>Date</th>
+              <th className="hidden sm:table-cell">Date</th>
               <th>Customer</th>
-              <th>Items</th>
+              <th className="hidden sm:table-cell">Items</th>
               <th>Total</th>
               <th>Status</th>
             </tr>
@@ -79,12 +79,12 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
                     {orderLabel(o.number)}
                   </Link>
                 </td>
-                <td>{(o.paidAt ?? o.createdAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}</td>
+                <td className="hidden sm:table-cell">{(o.paidAt ?? o.createdAt).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short" })}</td>
                 <td>
                   {o.shipName}
                   <span className="block text-xs text-muted">{o.email}</span>
                 </td>
-                <td>{o._count.items}</td>
+                <td className="hidden sm:table-cell">{o._count.items}</td>
                 <td>{formatCents(o.totalCents)}</td>
                 <td>
                   {orderStatusLabel[o.status]}

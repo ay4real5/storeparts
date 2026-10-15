@@ -18,21 +18,21 @@ export default function HomePage() {
         <div className="absolute -bottom-48 -left-24 h-[420px] w-[420px] rounded-full bg-[#3b82f6]/15 blur-[120px]" />
         <HeroWheel />
 
-        <div className="relative mx-auto max-w-7xl px-4 pt-16 pb-20 sm:pt-24">
+        <div className="relative mx-auto max-w-7xl px-4 pt-10 pb-12 sm:pt-24 sm:pb-20">
           <span className="chip border border-accent/40 bg-accent/10 text-accent">
             <BadgeCheck className="h-3.5 w-3.5" /> Fitment-checked auto parts
           </span>
-          <h1 className="display mt-5 max-w-3xl text-5xl leading-[0.95] sm:text-7xl">
+          <h1 className="display mt-4 max-w-3xl text-[44px] leading-[0.95] sm:mt-5 sm:text-7xl">
             The right part.
             <br />
             <span className="bg-gradient-to-r from-accent to-[#ffb347] bg-clip-text text-transparent">First time.</span>
           </h1>
-          <p className="mt-5 max-w-xl text-lg text-white/65">
+          <p className="mt-4 max-w-xl text-base text-white/65 sm:mt-5 sm:text-lg">
             Tell us what you drive. We’ll show only the parts that fit it, with the exact years, trims and engines
             listed on every product.
           </p>
 
-          <div className="mt-10 max-w-4xl rounded-2xl border border-white/10 bg-white/[0.06] p-5 shadow-2xl backdrop-blur-md sm:p-6">
+          <div className="mt-7 max-w-4xl rounded-2xl border border-white/10 bg-white/[0.06] p-4 shadow-2xl backdrop-blur-md sm:mt-10 sm:p-6">
             <div className="mb-4 flex items-center gap-3">
               <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent">
                 <CarFront className="h-5 w-5" />
@@ -51,7 +51,7 @@ export default function HomePage() {
 
       {/* Value strip */}
       <section className="border-b border-border bg-surface">
-        <div className="mx-auto grid max-w-7xl gap-px px-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-4 px-4 lg:grid-cols-4">
           {[
             [ShieldCheck, "Fitment checked", "Exact years, trims & engines"],
             [Truck, "Fast dispatch", "Ships in 1–2 business days"],
@@ -60,13 +60,13 @@ export default function HomePage() {
           ].map(([Icon, title, body]) => {
             const I = Icon as typeof ShieldCheck;
             return (
-              <div key={title as string} className="flex items-center gap-3 py-5">
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent">
+              <div key={title as string} className="flex items-center gap-2.5 py-3.5 sm:gap-3 sm:py-5">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-accent-soft text-accent sm:h-11 sm:w-11">
                   <I className="h-5 w-5" />
                 </span>
                 <div>
-                  <p className="font-bold">{title as string}</p>
-                  <p className="text-sm text-muted">{body as string}</p>
+                  <p className="text-sm font-bold sm:text-base">{title as string}</p>
+                  <p className="hidden text-sm text-muted sm:block">{body as string}</p>
                 </div>
               </div>
             );
@@ -74,7 +74,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="mx-auto max-w-7xl space-y-16 px-4 py-14">
+      <div className="mx-auto max-w-7xl space-y-12 px-4 py-10 sm:space-y-16 sm:py-14">
         <Suspense fallback={<div className="h-40 animate-pulse rounded-xl bg-surface" />}>
           <Categories />
         </Suspense>
@@ -86,13 +86,13 @@ export default function HomePage() {
           </Suspense>
         </section>
 
-        <section className="relative overflow-hidden rounded-2xl bg-ink px-6 py-12 text-white sm:px-12">
+        <section className="relative overflow-hidden rounded-2xl bg-ink px-5 py-8 text-white sm:px-12 sm:py-12">
           <div className="bg-stripes absolute inset-0" />
           <div className="absolute -right-20 -bottom-24 h-72 w-72 rounded-full bg-accent/40 blur-[90px]" />
           <div className="relative flex flex-wrap items-center justify-between gap-6">
             <div className="max-w-xl">
               <p className="display text-sm text-accent">Core return program</p>
-              <h2 className="display mt-1 text-4xl leading-none">Got an old alternator or starter?</h2>
+              <h2 className="display mt-1 text-3xl leading-none sm:text-4xl">Got an old alternator or starter?</h2>
               <p className="mt-3 text-white/65">
                 Remanufactured parts carry a refundable core deposit. Send your old part back in the same box and we
                 refund the deposit to your card.
@@ -110,10 +110,10 @@ export default function HomePage() {
 
 function SectionHeading({ title, kicker, href }: { title: string; kicker: string; href?: string }) {
   return (
-    <div className="mb-6 flex items-end justify-between gap-4">
+    <div className="mb-4 flex items-end justify-between gap-4 sm:mb-6">
       <div>
         <p className="display text-sm text-accent">{kicker}</p>
-        <h2 className="display text-4xl leading-none">{title}</h2>
+        <h2 className="display text-3xl leading-none sm:text-4xl">{title}</h2>
       </div>
       {href && (
         <Link href={href} className="group flex items-center gap-1 text-sm font-bold text-accent">
@@ -140,16 +140,16 @@ async function Categories() {
   return (
     <section>
       <SectionHeading title="Shop by category" kicker="Find it fast" />
-      <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="grid grid-cols-3 gap-2.5 sm:gap-4 lg:grid-cols-6">
         {categories.map((c) => (
           <Link
             key={c.id}
             href={`/shop?category=${c.slug}`}
             className="group card overflow-hidden transition duration-300 hover:-translate-y-1 hover:border-accent/60"
           >
-            <PartArt hints={[c.slug, c.name]} className="aspect-[5/3]" iconClass="h-12 w-12 transition duration-500 group-hover:scale-110" />
-            <div className="p-3">
-              <p className="font-bold group-hover:text-accent">{c.name}</p>
+            <PartArt hints={[c.slug, c.name]} className="aspect-[5/3]" iconClass="h-8 w-8 transition duration-500 group-hover:scale-110 sm:h-12 sm:w-12" />
+            <div className="p-2.5 sm:p-3">
+              <p className="truncate text-sm font-bold group-hover:text-accent sm:text-base">{c.name}</p>
               <p className="text-xs text-muted">
                 {c._count.products} part{c._count.products === 1 ? "" : "s"}
               </p>
@@ -174,7 +174,7 @@ async function Featured() {
     return <p className="card p-8 text-center text-muted">No products yet. Add some in the admin dashboard.</p>;
   }
   return (
-    <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+    <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4">
       {products.map((p) => (
         <ProductCard
           key={p.id}

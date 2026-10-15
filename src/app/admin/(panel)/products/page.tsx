@@ -31,10 +31,10 @@ export default async function ProductsPage(props: PageProps<"/admin/products">) 
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
         <h1 className="display text-4xl">Products</h1>
-        <form className="ml-auto">
-          <input name="q" defaultValue={q} placeholder="Search title or SKU" className="input w-64" />
+        <form className="order-last w-full sm:order-none sm:ml-auto sm:w-auto">
+          <input name="q" defaultValue={q} placeholder="Search title or SKU" className="input sm:w-64" />
         </form>
-        <Link href="/admin/products/new" className="btn">
+        <Link href="/admin/products/new" className="btn ml-auto sm:ml-0">
           + New product
         </Link>
       </div>
@@ -42,19 +42,19 @@ export default async function ProductsPage(props: PageProps<"/admin/products">) 
         <table className="table">
           <thead>
             <tr>
-              <th>SKU</th>
+              <th className="hidden sm:table-cell">SKU</th>
               <th>Title</th>
               <th>Status</th>
               <th>Price</th>
               <th>Stock</th>
-              <th>Fitment</th>
-              <th>Photos</th>
+              <th className="hidden md:table-cell">Fitment</th>
+              <th className="hidden md:table-cell">Photos</th>
             </tr>
           </thead>
           <tbody>
             {products.map((p) => (
               <tr key={p.id}>
-                <td className="font-mono text-xs">{p.sku}</td>
+                <td className="hidden font-mono text-xs sm:table-cell">{p.sku}</td>
                 <td>
                   <Link href={`/admin/products/${p.id}`} className="font-medium text-accent">
                     {p.title}
@@ -72,10 +72,10 @@ export default async function ProductsPage(props: PageProps<"/admin/products">) 
                 </td>
                 <td>{formatCents(p.priceCents)}</td>
                 <td className={p.stockQty <= 0 ? "font-semibold text-warn" : ""}>{p.stockQty}</td>
-                <td className={!p.universalFit && p._count.fitments === 0 ? "text-warn" : ""}>
+                <td className={`hidden md:table-cell ${!p.universalFit && p._count.fitments === 0 ? "text-warn" : ""}`}>
                   {p.universalFit ? "Universal" : p._count.fitments}
                 </td>
-                <td className={p._count.images === 0 ? "text-warn" : ""}>{p._count.images}</td>
+                <td className={`hidden md:table-cell ${p._count.images === 0 ? "text-warn" : ""}`}>{p._count.images}</td>
               </tr>
             ))}
             {products.length === 0 && (

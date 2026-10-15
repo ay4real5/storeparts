@@ -42,7 +42,7 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
         {order.hazmat && <span className="rounded bg-warn/15 px-2 py-1 text-xs font-semibold text-warn">HAZMAT: ground only</span>}
       </div>
 
-      <div className="grid gap-6 lg:grid-cols-[1fr_360px]">
+      <div className="grid gap-6 lg:grid-cols-[1fr_360px] [&>*]:min-w-0">
         <div className="space-y-6">
           <section className="card p-5">
             <h2 className="mb-3 font-semibold">Items</h2>

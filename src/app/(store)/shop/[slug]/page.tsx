@@ -82,7 +82,7 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
   ];
 
   return (
-    <div className="mx-auto max-w-7xl space-y-12 px-4 py-8">
+    <div className="mx-auto max-w-7xl space-y-10 px-4 py-5 sm:space-y-12 sm:py-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
@@ -104,17 +104,17 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
         <span className="truncate text-foreground">{p.title}</span>
       </nav>
 
-      <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
+      <div className="grid gap-6 sm:gap-10 lg:grid-cols-[1.1fr_1fr] [&>*]:min-w-0">
         {/* Gallery */}
         <div className="space-y-3">
-          <div className="card relative aspect-square overflow-hidden">
+          <div className="card relative aspect-[4/3] overflow-hidden sm:aspect-square">
             {p.images[0] ? (
               <div className="flex h-full items-center justify-center bg-white">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={p.images[0].url} alt={p.images[0].alt || p.title} className="h-full w-full object-contain p-8" />
               </div>
             ) : (
-              <PartArt hints={[p.category?.slug, p.title]} className="h-full w-full" iconClass="h-40 w-40" />
+              <PartArt hints={[p.category?.slug, p.title]} className="h-full w-full" iconClass="h-24 w-24 sm:h-40 sm:w-40" />
             )}
             {onSale && (
               <span className="chip absolute top-4 left-4 bg-accent px-3 py-1 text-sm text-white shadow-lg">
@@ -135,15 +135,15 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
         </div>
 
         {/* Buy box */}
-        <div className="space-y-6">
+        <div className="space-y-5 sm:space-y-6">
           <div>
             {p.brand && <p className="display text-base text-accent">{p.brand}</p>}
-            <h1 className="display mt-1 text-4xl leading-[1.05] sm:text-5xl">{p.title}</h1>
+            <h1 className="display mt-1 text-3xl leading-[1.05] sm:text-5xl">{p.title}</h1>
             <p className="mt-2 font-mono text-xs text-muted">SKU {p.sku}</p>
           </div>
 
           <div className="flex flex-wrap items-baseline gap-3">
-            <span className="display text-5xl normal-case">{formatCents(p.priceCents)}</span>
+            <span className="display text-4xl normal-case sm:text-5xl">{formatCents(p.priceCents)}</span>
             {onSale && <span className="text-xl text-muted line-through">{formatCents(p.compareAtCents!)}</span>}
           </div>
           {p.coreChargeCents > 0 && (
@@ -198,7 +198,7 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
             />
           </div>
 
-          <ul className="grid gap-3 text-sm sm:grid-cols-3">
+          <ul className="grid grid-cols-3 gap-2 text-xs sm:gap-3 sm:text-sm">
             {[
               [Truck, p.hazmat ? "Ground shipping only" : "Ships in 1–2 days"],
               [RotateCcw, "30-day returns"],
@@ -206,7 +206,10 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
             ].map(([Icon, text]) => {
               const I = Icon as typeof Truck;
               return (
-                <li key={text as string} className="flex items-center gap-2 rounded-lg bg-surface-2 px-3 py-2.5 font-semibold">
+                <li
+                  key={text as string}
+                  className="flex flex-col items-center gap-1.5 rounded-lg bg-surface-2 px-2 py-3 text-center font-semibold sm:flex-row sm:px-3 sm:py-2.5 sm:text-left"
+                >
                   <I className="h-4 w-4 text-accent" /> {text as string}
                 </li>
               );
@@ -215,7 +218,7 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
         </div>
       </div>
 
-      <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr]">
+      <div className="grid gap-8 lg:grid-cols-[1.1fr_1fr] [&>*]:min-w-0 [&_h2]:text-2xl sm:[&_h2]:text-3xl">
         <section className="space-y-4">
           {p.description && (
             <div>
@@ -229,7 +232,26 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
               {p.fitments.length === 0 ? (
                 <p className="text-sm text-muted">Fitment details coming soon. Contact us to confirm fit before ordering.</p>
               ) : (
-                <div className="card overflow-x-auto">
+                <>
+                {/* Phones: one card per vehicle instead of a wide table. */}
+                <ul className="space-y-2 sm:hidden">
+                  {p.fitments.map((f) => {
+                    const mine = vehicle && fitmentMatches([f], false, vehicle);
+                    return (
+                      <li key={f.id} className={`card px-4 py-3 text-sm ${mine ? "border-ok/40 bg-ok-soft" : ""}`}>
+                        <p className="font-bold">
+                          {f.yearStart === f.yearEnd ? f.yearStart : `${f.yearStart}–${f.yearEnd}`} {f.make} {f.model}
+                          {mine && <span className="chip ml-2 bg-ok text-white">Yours</span>}
+                        </p>
+                        <p className="text-muted">
+                          Trim: {f.submodel ?? "All"} · Engine: {f.engine ?? "All"}
+                          {f.notes && <> · {f.notes}</>}
+                        </p>
+                      </li>
+                    );
+                  })}
+                </ul>
+                <div className="card hidden overflow-x-auto sm:block">
                   <table className="table">
                     <thead>
                       <tr>
@@ -260,6 +282,7 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
                     </tbody>
                   </table>
                 </div>
+                </>
               )}
             </div>
           )}

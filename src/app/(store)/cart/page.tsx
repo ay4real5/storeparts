@@ -26,13 +26,13 @@ export default function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-10">
-      <h1 className="display mb-6 text-5xl">Your cart</h1>
-      <div className="grid gap-8 lg:grid-cols-[1fr_360px]">
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:py-10">
+      <h1 className="display mb-5 text-4xl sm:mb-6 sm:text-5xl">Your cart</h1>
+      <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1fr_360px] [&>*]:min-w-0">
         <section className="space-y-3">
           {items.map((i) => (
-            <div key={i.productId} className="card flex gap-4 p-4">
-              <div className="flex h-24 w-24 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-surface-2">
+            <div key={i.productId} className="card flex gap-3 p-3 sm:gap-4 sm:p-4">
+              <div className="flex h-20 w-20 shrink-0 sm:h-24 sm:w-24 items-center justify-center overflow-hidden rounded-lg bg-surface-2">
                 {i.image ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img src={i.image} alt="" className="h-full w-full bg-white object-contain p-1" />
@@ -45,7 +45,7 @@ export default function CartPage() {
                   <Link href={`/shop/${i.slug}`} className="font-semibold hover:text-accent">
                     {i.title}
                   </Link>
-                  <span className="display text-xl normal-case">{formatCents(i.priceCents * i.qty)}</span>
+                  <span className="display shrink-0 text-xl normal-case">{formatCents(i.priceCents * i.qty)}</span>
                 </div>
                 <span className="font-mono text-xs text-muted">SKU {i.sku}</span>
                 {i.coreChargeCents > 0 && (
@@ -85,7 +85,7 @@ export default function CartPage() {
           ))}
         </section>
 
-        <aside className="card h-fit space-y-3 p-6 lg:sticky lg:top-24">
+        <aside className="card h-fit space-y-3 p-5 sm:p-6 lg:sticky lg:top-24">
           <h2 className="display text-2xl">Summary</h2>
           <div className="flex justify-between">
             <span className="text-muted">Subtotal</span>

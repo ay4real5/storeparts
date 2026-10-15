@@ -110,11 +110,14 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
   const selectedRate = quote?.rates.find((r) => r.id === rateId);
 
   return (
-    <div className="mx-auto grid max-w-7xl gap-8 px-4 py-10 lg:grid-cols-[1fr_380px]">
-      <div className="space-y-6">
-        <h1 className="display flex items-center gap-3 text-5xl">Checkout <Lock className="h-7 w-7 text-accent" /></h1>
+    <div className="mx-auto max-w-7xl px-4 py-6 sm:py-10">
+    <h1 className="display mb-5 flex items-center gap-3 text-4xl sm:mb-6 sm:text-5xl">
+      Checkout <Lock className="h-7 w-7 text-accent" />
+    </h1>
+    <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1fr_380px] [&>*]:min-w-0">
+      <div className="space-y-5 sm:space-y-6">
 
-        <form onSubmit={getRates} className="card space-y-4 p-6">
+        <form onSubmit={getRates} className="card space-y-4 p-4 sm:p-6">
           <StepTitle n={1} title="Contact & shipping" done={Boolean(quote)} />
           <div>
             <label className="label" htmlFor="email">
@@ -134,7 +137,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
           {field("name", "Full name", { required: true, autoComplete: "name" })}
           {field("street1", "Address", { required: true, autoComplete: "address-line1" })}
           {field("street2", "Apt, suite (optional)", { autoComplete: "address-line2" })}
-          <div className="grid grid-cols-[1fr_80px_120px] gap-3">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-[1fr_80px_120px] [&>*:first-child]:col-span-2 sm:[&>*:first-child]:col-span-1">
             {field("city", "City", { required: true, autoComplete: "address-level2" })}
             {field("state", "State", { required: true, maxLength: 2, placeholder: "TX", autoComplete: "address-level1" })}
             {field("zip", "ZIP", { required: true, inputMode: "numeric", autoComplete: "postal-code" })}
@@ -148,7 +151,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         </form>
 
         {quote && (
-          <div className="card space-y-3 p-6">
+          <div className="card space-y-3 p-4 sm:p-6">
             <StepTitle n={2} title="Shipping method" done={Boolean(started)} />
             {quote.hazmat && (
               <p className="text-sm text-muted">Your cart has items that can only ship by ground service.</p>
@@ -178,7 +181,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         )}
 
         {started && stripePromise && (
-          <div className="card space-y-3 p-6">
+          <div className="card space-y-3 p-4 sm:p-6">
             <StepTitle n={3} title="Payment" done={false} />
             <Elements stripe={stripePromise} options={{ clientSecret: started.clientSecret }}>
               <PayForm started={started} />
@@ -192,7 +195,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         {error && <p className="rounded-md bg-warn/10 px-3 py-2 text-sm text-warn">{error}</p>}
       </div>
 
-      <aside className="card h-fit space-y-2 p-6 text-sm lg:sticky lg:top-24">
+      <aside className="card order-first h-fit space-y-2 p-4 text-sm sm:p-6 lg:sticky lg:top-24 lg:order-none">
         <h2 className="display mb-2 text-2xl">Order summary</h2>
         {items.map((i) => (
           <div key={i.productId} className="flex justify-between gap-2">
@@ -215,6 +218,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
           <span className="display text-3xl normal-case">{started ? formatCents(started.totals.totalCents) : "—"}</span>
         </div>
       </aside>
+    </div>
     </div>
   );
 }

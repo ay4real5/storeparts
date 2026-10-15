@@ -2,6 +2,7 @@ import Link from "next/link";
 import { PackageCheck, RotateCcw, Search, ShieldCheck, ShoppingCart, Truck } from "lucide-react";
 import { CartCount, CartProvider } from "@/components/cart";
 import { Logo } from "@/components/logo";
+import { MobileTabBar } from "@/components/mobile-tab-bar";
 
 const storeName = process.env.STORE_NAME ?? "StoreParts";
 
@@ -23,7 +24,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       </div>
 
       <header className="sticky top-0 z-30 border-b border-white/5 bg-ink/95 text-white backdrop-blur">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-3 px-4 py-3.5">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-2.5 px-4 py-3 sm:py-3.5">
           <Logo />
           <form action="/shop" className="order-last w-full sm:order-none sm:w-auto sm:flex-1">
             <label className="relative block">
@@ -37,7 +38,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
               />
             </label>
           </form>
-          <nav className="ml-auto flex items-center gap-1 text-sm font-semibold">
+          <nav className="ml-auto hidden items-center gap-1 text-sm font-semibold sm:flex">
             <Link href="/shop" className="rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/5 hover:text-white">
               Shop
             </Link>
@@ -59,8 +60,8 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       <main className="w-full flex-1">{children}</main>
 
       <footer className="bg-ink text-white/70">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-12 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="space-y-3">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 sm:py-12 lg:grid-cols-4">
+          <div className="col-span-2 space-y-3 lg:col-span-1">
             <Logo />
             <p className="text-sm">Quality parts matched to your exact vehicle, shipped fast from our warehouse.</p>
           </div>
@@ -83,12 +84,15 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
         <div className="border-t border-white/5">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-xs text-white/40">
             <span>© {storeName}. All rights reserved.</span>
-            <span className="flex items-center gap-1.5">
+            <span className="hidden items-center gap-1.5 sm:flex">
               <PackageCheck className="h-3.5 w-3.5" /> Secure checkout by Stripe · Apple Pay accepted
             </span>
           </div>
         </div>
       </footer>
+      {/* Room for the fixed tab bar on phones. */}
+      <div className="h-16 bg-ink sm:hidden" />
+      <MobileTabBar />
     </CartProvider>
   );
 }
