@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { Suspense } from "react";
 import { ExternalLink, LogOut } from "lucide-react";
 import { logout } from "../actions";
 import { Logo } from "@/components/logo";
@@ -18,7 +19,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <Logo href="/admin" />
             <span className="chip bg-accent/15 text-accent">Admin</span>
           </div>
-          <AdminNav />
+          <Suspense fallback={null}>
+            <AdminNav />
+          </Suspense>
           <div className="ml-auto flex items-center gap-1 text-sm font-semibold">
             <Link href="/" target="_blank" className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-white/70 hover:bg-white/5 hover:text-white">
               <span className="hidden sm:inline">View store</span> <ExternalLink className="h-4 w-4 sm:h-3.5 sm:w-3.5" />

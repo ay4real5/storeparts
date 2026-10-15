@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Suspense } from "react";
 import { PackageCheck, RotateCcw, Search, ShieldCheck, ShoppingCart, Truck } from "lucide-react";
 import { CartCount, CartProvider } from "@/components/cart";
 import { Logo } from "@/components/logo";
@@ -92,7 +93,10 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       </footer>
       {/* Room for the fixed tab bar on phones. */}
       <div className="h-16 bg-ink sm:hidden" />
-      <MobileTabBar />
+      {/* The tab bar reads the URL, so it renders at request time. */}
+      <Suspense fallback={null}>
+        <MobileTabBar />
+      </Suspense>
     </CartProvider>
   );
 }

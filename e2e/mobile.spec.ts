@@ -24,7 +24,8 @@ test("tab bar navigates and shows the cart count", async ({ page }) => {
   await expect(tabs.getByRole("link", { name: /Cart/ })).toContainText("1");
   await tabs.getByRole("link", { name: /Cart/ }).click();
   await expect(page).toHaveURL(/\/cart$/);
-  await expect(page.getByText("Ceramic Front Brake Pad Set")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your cart" })).toBeVisible();
+  await expect(page.locator("main").getByRole("link", { name: "Ceramic Front Brake Pad Set" })).toBeVisible();
 });
 
 test("vehicle bar expands to the selector on the shop page", async ({ page }) => {
