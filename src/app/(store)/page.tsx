@@ -51,10 +51,10 @@ export default function HomePage() {
 
           {/* Floating part tiles: decorative, desktop only. */}
           <div aria-hidden className="relative hidden h-[420px] lg:block">
-            <PartArt hints={["brakes"]} className="absolute top-4 left-6 h-44 w-44 -rotate-6 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-20 w-20" />
-            <PartArt hints={["battery"]} className="absolute top-24 right-4 h-52 w-52 rotate-6 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-24 w-24" />
-            <PartArt hints={["filter"]} className="absolute bottom-2 left-24 h-40 w-40 rotate-3 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-16 w-16" />
-            <div className="absolute right-16 bottom-10 rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-border">
+            <PartArt hints={["brakes"]} className="absolute top-2 left-0 h-44 w-44 -rotate-6 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-20 w-20" />
+            <PartArt hints={["battery"]} className="absolute top-10 right-6 h-52 w-52 rotate-6 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-24 w-24" />
+            <PartArt hints={["filter"]} className="absolute bottom-0 left-16 h-40 w-40 rotate-3 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-16 w-16" />
+            <div className="absolute right-4 bottom-16 rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-border">
               <p className="flex items-center gap-2 text-sm font-bold text-ok">
                 <ShieldCheck className="h-4 w-4" /> Fits your vehicle
               </p>
