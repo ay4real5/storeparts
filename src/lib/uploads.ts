@@ -13,14 +13,24 @@ const TYPES: Record<string, string> = {
 const MAX_BYTES = 8 * 1024 * 1024;
 
 /**
- * Stores a product photo. Cloudinary when configured; otherwise a local
- * directory served by /uploads/[file] (mount it as a Docker volume).
+ * Stores a product photo: Vercel Blob or Cloudinary when configured; otherwise
+ * a local directory served by /uploads/[file] (mount it as a Docker volume).
  */
 export async function storeImage(file: File): Promise<string> {
   const ext = TYPES[file.type];
   if (!ext) throw new Error("Images must be JPEG, PNG, WebP or AVIF.");
   if (file.size > MAX_BYTES) throw new Error("Images must be under 8 MB.");
   const bytes = Buffer.from(await file.arrayBuffer());
+
+  // Vercel Blob: set automatically when a Blob store is connected to the project.
+  if (process.env.BLOB_READ_WRITE_TOKEN) {
+    const { put } = await import("@vercel/blob");
+    const blob = await put(`products/${randomBytes(8).toString("hex")}.${ext}`, bytes, {
+      access: "public",
+      contentType: file.type,
+    });
+    return blob.url;
+  }
 
   const { cloudName, apiKey, apiSecret } = config.cloudinary;
   if (cloudName && apiKey && apiSecret) {
