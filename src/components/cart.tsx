@@ -103,7 +103,7 @@ export function CartCount() {
   const { count, ready } = useCart();
   if (!ready || count === 0) return null;
   return (
-    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-accent px-1.5 text-xs font-bold text-white ring-2 ring-ink">
+    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-white px-1.5 text-xs font-bold text-accent">
       {count}
     </span>
   );

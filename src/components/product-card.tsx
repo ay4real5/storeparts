@@ -52,12 +52,12 @@ export function ProductCard({
         <div className="absolute top-2 left-2 flex flex-col items-start gap-1.5 sm:top-3 sm:left-3">
           {onSale && <span className="chip bg-accent text-white shadow">−{savePct}%</span>}
           {product.stockQty > 0 && product.stockQty <= 3 && (
-            <span className="chip bg-ink/80 text-white backdrop-blur">Only {product.stockQty} left</span>
+            <span className="chip bg-white text-accent shadow">Only {product.stockQty} left</span>
           )}
         </div>
         {product.stockQty <= 0 && (
-          <div className="absolute inset-0 flex items-center justify-center bg-ink/60 backdrop-blur-[2px]">
-            <span className="display rounded-md bg-white/90 px-2 py-0.5 text-sm text-ink sm:px-3 sm:py-1 sm:text-lg">Out of stock</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-white/70 backdrop-blur-[2px]">
+            <span className="display rounded-md bg-ink px-2 py-0.5 text-sm text-white sm:px-3 sm:py-1 sm:text-lg">Out of stock</span>
           </div>
         )}
       </div>

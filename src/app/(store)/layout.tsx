@@ -10,7 +10,7 @@ const storeName = process.env.STORE_NAME ?? "StoreParts";
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
     <CartProvider>
-      <div className="bg-accent text-white">
+      <div className="bg-warm text-white">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 overflow-x-auto px-4 py-1.5 text-xs font-semibold whitespace-nowrap sm:justify-between">
           <span className="flex items-center gap-1.5">
             <ShieldCheck className="h-3.5 w-3.5" /> Fitment checked on every part
@@ -24,32 +24,29 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
         </div>
       </div>
 
-      <header className="sticky top-0 z-30 border-b border-white/5 bg-ink/95 text-white backdrop-blur">
+      <header className="sticky top-0 z-30 border-b border-border bg-white/90 backdrop-blur-md">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-2.5 px-4 py-3 sm:py-3.5">
           <Logo />
           <form action="/shop" className="order-last w-full sm:order-none sm:w-auto sm:flex-1">
             <label className="relative block">
-              <Search className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-white/40" />
+              <Search className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-muted" />
               <input
                 name="q"
                 type="search"
                 placeholder="Search by part, brand or SKU…"
                 aria-label="Search"
-                className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pr-3 pl-10 text-sm text-white outline-none transition placeholder:text-white/40 focus:border-accent focus:bg-white/10"
+                className="w-full rounded-full border border-border bg-surface-2 py-2.5 pr-4 pl-10 text-sm outline-none transition placeholder:text-muted focus:border-accent focus:bg-white focus:ring-4 focus:ring-accent/10"
               />
             </label>
           </form>
           <nav className="ml-auto hidden items-center gap-1 text-sm font-semibold sm:flex">
-            <Link href="/shop" className="rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/5 hover:text-white">
+            <Link href="/shop" className="rounded-lg px-3 py-2 text-ink-3 transition hover:bg-surface-2 hover:text-accent">
               Shop
             </Link>
-            <Link href="/track" className="hidden rounded-lg px-3 py-2 text-white/80 transition hover:bg-white/5 hover:text-white sm:block">
+            <Link href="/track" className="rounded-lg px-3 py-2 text-ink-3 transition hover:bg-surface-2 hover:text-accent">
               Track order
             </Link>
-            <Link
-              href="/cart"
-              className="ml-2 flex items-center gap-2 rounded-lg bg-white/10 px-3.5 py-2 transition hover:bg-accent"
-            >
+            <Link href="/cart" className="btn ml-2 rounded-full px-4 py-2">
               <ShoppingCart className="h-4 w-4" />
               Cart
               <CartCount />
@@ -60,7 +57,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
 
       <main className="w-full flex-1">{children}</main>
 
-      <footer className="bg-ink text-white/70">
+      <footer className="border-t border-border bg-surface-2 text-muted">
         <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 sm:py-12 lg:grid-cols-4">
           <div className="col-span-2 space-y-3 lg:col-span-1">
             <Logo />
@@ -82,8 +79,8 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
             <Link href="/policies#privacy">Privacy</Link>
           </FooterCol>
         </div>
-        <div className="border-t border-white/5">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-xs text-white/40">
+        <div className="border-t border-border">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-xs">
             <span>© {storeName}. All rights reserved.</span>
             <span className="hidden items-center gap-1.5 sm:flex">
               <PackageCheck className="h-3.5 w-3.5" /> Secure checkout by Stripe · Apple Pay accepted
@@ -92,7 +89,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
         </div>
       </footer>
       {/* Room for the fixed tab bar on phones. */}
-      <div className="h-16 bg-ink sm:hidden" />
+      <div className="h-16 bg-surface-2 sm:hidden" />
       {/* The tab bar reads the URL, so it renders at request time. */}
       <Suspense fallback={null}>
         <MobileTabBar />
@@ -104,7 +101,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
 function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="display mb-3 text-base text-white">{title}</h3>
+      <h3 className="display mb-3 text-base text-ink">{title}</h3>
       <div className="flex flex-col gap-2 text-sm [&_a]:transition [&_a:hover]:text-accent">{children}</div>
     </div>
   );

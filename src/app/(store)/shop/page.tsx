@@ -72,9 +72,9 @@ async function Shop({ searchParams }: { searchParams: PageProps<"/shop">["search
 
   return (
     <>
-      <section className="relative overflow-hidden bg-ink text-white">
-        <div className="bg-stripes absolute inset-0" />
-        <div className="absolute -top-24 right-0 h-64 w-64 rounded-full bg-accent/30 blur-[100px]" />
+      <section className="relative overflow-hidden border-b border-border bg-gradient-to-br from-cream to-white">
+        <div className="bg-stripes-soft absolute inset-0" />
+        <div className="absolute -top-24 right-0 h-64 w-64 rounded-full bg-accent/15 blur-[100px]" />
         <div className="relative mx-auto max-w-7xl px-4 py-7 sm:py-10">
           <p className="display text-sm text-accent">
             {filterByVehicle ? `Parts for your ${vehicleLabel(vehicle)}` : "Catalog"}
@@ -82,7 +82,7 @@ async function Shop({ searchParams }: { searchParams: PageProps<"/shop">["search
           <h1 className="display mt-1 text-4xl leading-none sm:text-5xl">
             {q ? `“${q}”` : (activeCategory?.name ?? "All parts")}
           </h1>
-          <p className="mt-2 text-white/60">
+          <p className="mt-2 text-muted">
             {products.length} part{products.length === 1 ? "" : "s"}
             {filterByVehicle ? " that fit" : ""}
           </p>

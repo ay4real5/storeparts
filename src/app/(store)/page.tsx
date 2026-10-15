@@ -12,39 +12,54 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-ink text-white">
-        <div className="bg-grid absolute inset-0 [mask-image:radial-gradient(ellipse_at_70%_30%,black,transparent_70%)]" />
-        <div className="absolute -top-40 -right-32 h-[520px] w-[520px] rounded-full bg-accent/30 blur-[120px]" />
-        <div className="absolute -bottom-48 -left-24 h-[420px] w-[420px] rounded-full bg-[#3b82f6]/15 blur-[120px]" />
+      <section className="relative overflow-hidden bg-gradient-to-b from-cream via-[#fffaf5] to-background">
+        <div className="bg-grid-soft absolute inset-0 [mask-image:radial-gradient(ellipse_at_75%_20%,black,transparent_65%)]" />
+        <div className="absolute -top-32 -right-24 h-[460px] w-[460px] rounded-full bg-accent/20 blur-[110px]" />
+        <div className="absolute top-40 -left-32 h-[340px] w-[340px] rounded-full bg-[#ffc49b]/40 blur-[100px]" />
         <HeroWheel />
 
-        <div className="relative mx-auto max-w-7xl px-4 pt-10 pb-12 sm:pt-24 sm:pb-20">
-          <span className="chip border border-accent/40 bg-accent/10 text-accent">
-            <BadgeCheck className="h-3.5 w-3.5" /> Fitment-checked auto parts
-          </span>
-          <h1 className="display mt-4 max-w-3xl text-[44px] leading-[0.95] sm:mt-5 sm:text-7xl">
-            The right part.
-            <br />
-            <span className="bg-gradient-to-r from-accent to-[#ffb347] bg-clip-text text-transparent">First time.</span>
-          </h1>
-          <p className="mt-4 max-w-xl text-base text-white/65 sm:mt-5 sm:text-lg">
-            Tell us what you drive. We’ll show only the parts that fit it, with the exact years, trims and engines
-            listed on every product.
-          </p>
+        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pt-10 pb-12 sm:pt-20 sm:pb-20 lg:grid-cols-[1.25fr_1fr]">
+          <div>
+            <span className="chip border border-accent/25 bg-white text-accent shadow-sm">
+              <BadgeCheck className="h-3.5 w-3.5" /> Fitment-checked auto parts
+            </span>
+            <h1 className="display mt-4 max-w-3xl text-[44px] leading-[0.95] text-ink sm:mt-5 sm:text-7xl">
+              The right part.
+              <br />
+              <span className="bg-gradient-to-r from-accent to-[#ff9a4d] bg-clip-text text-transparent">First time.</span>
+            </h1>
+            <p className="mt-4 max-w-xl text-base text-muted sm:mt-5 sm:text-lg">
+              Tell us what you drive. We’ll show only the parts that fit it, with the exact years, trims and engines
+              listed on every product.
+            </p>
 
-          <div className="mt-7 max-w-4xl rounded-2xl border border-white/10 bg-white/[0.06] p-4 shadow-2xl backdrop-blur-md sm:mt-10 sm:p-6">
-            <div className="mb-4 flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent">
-                <CarFront className="h-5 w-5" />
-              </span>
-              <div>
-                <p className="display text-xl leading-none">Shop by vehicle</p>
-                <p className="text-sm text-white/55">Year, make and model</p>
+            <div className="mt-7 max-w-3xl rounded-2xl border border-border bg-white p-4 shadow-[0_24px_60px_-28px_rgb(242_84_27/0.45)] sm:mt-10 sm:p-6">
+              <div className="mb-4 flex items-center gap-3">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-warm text-white shadow-[0_6px_16px_-6px_var(--accent)]">
+                  <CarFront className="h-5 w-5" />
+                </span>
+                <div>
+                  <p className="display text-xl leading-none">Shop by vehicle</p>
+                  <p className="text-sm text-muted">Year, make and model</p>
+                </div>
               </div>
+              <Suspense fallback={<div className="h-12 animate-pulse rounded-lg bg-surface-2" />}>
+                <HomeVehicle />
+              </Suspense>
             </div>
-            <Suspense fallback={<div className="h-12 animate-pulse rounded-lg bg-white/10" />}>
-              <HomeVehicle />
-            </Suspense>
+          </div>
+
+          {/* Floating part tiles: decorative, desktop only. */}
+          <div aria-hidden className="relative hidden h-[420px] lg:block">
+            <PartArt hints={["brakes"]} className="absolute top-4 left-6 h-44 w-44 -rotate-6 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-20 w-20" />
+            <PartArt hints={["battery"]} className="absolute top-24 right-4 h-52 w-52 rotate-6 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-24 w-24" />
+            <PartArt hints={["filter"]} className="absolute bottom-2 left-24 h-40 w-40 rotate-3 rounded-3xl shadow-2xl ring-8 ring-white" iconClass="h-16 w-16" />
+            <div className="absolute right-16 bottom-10 rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-border">
+              <p className="flex items-center gap-2 text-sm font-bold text-ok">
+                <ShieldCheck className="h-4 w-4" /> Fits your vehicle
+              </p>
+              <p className="text-xs text-muted">Checked on every product</p>
+            </div>
           </div>
         </div>
       </section>
@@ -86,19 +101,22 @@ export default function HomePage() {
           </Suspense>
         </section>
 
-        <section className="relative overflow-hidden rounded-2xl bg-ink px-5 py-8 text-white sm:px-12 sm:py-12">
+        <section className="bg-warm relative overflow-hidden rounded-2xl px-5 py-8 text-white shadow-[0_24px_60px_-30px_var(--accent)] sm:px-12 sm:py-12">
           <div className="bg-stripes absolute inset-0" />
-          <div className="absolute -right-20 -bottom-24 h-72 w-72 rounded-full bg-accent/40 blur-[90px]" />
+          <div className="absolute -right-20 -bottom-24 h-72 w-72 rounded-full bg-[#ffd27a]/50 blur-[90px]" />
           <div className="relative flex flex-wrap items-center justify-between gap-6">
             <div className="max-w-xl">
-              <p className="display text-sm text-accent">Core return program</p>
+              <p className="display text-sm text-white/80">Core return program</p>
               <h2 className="display mt-1 text-3xl leading-none sm:text-4xl">Got an old alternator or starter?</h2>
-              <p className="mt-3 text-white/65">
+              <p className="mt-3 text-white/90">
                 Remanufactured parts carry a refundable core deposit. Send your old part back in the same box and we
                 refund the deposit to your card.
               </p>
             </div>
-            <Link href="/returns" className="btn">
+            <Link
+              href="/returns"
+              className="inline-flex items-center gap-2 rounded-lg bg-white px-5 py-2.5 text-sm font-bold text-accent shadow-lg transition hover:-translate-y-px"
+            >
               Start a core return <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
@@ -127,7 +145,7 @@ function SectionHeading({ title, kicker, href }: { title: string; kicker: string
 async function HomeVehicle() {
   await connection();
   const [tree, current] = await Promise.all([getVehicleTree(), getSelectedVehicle()]);
-  return <VehicleSelector tree={tree} current={current} goTo="/shop" dark />;
+  return <VehicleSelector tree={tree} current={current} goTo="/shop" />;
 }
 
 async function Categories() {
@@ -194,7 +212,7 @@ function HeroWheel() {
     <svg
       viewBox="0 0 400 400"
       aria-hidden
-      className="pointer-events-none absolute top-1/2 -right-24 hidden h-[560px] w-[560px] -translate-y-1/2 animate-[spin_60s_linear_infinite] text-white/[0.07] lg:block"
+      className="pointer-events-none absolute -top-40 -left-48 hidden h-[560px] w-[560px] animate-[spin_60s_linear_infinite] text-accent/[0.08] lg:block"
       fill="none"
       stroke="currentColor"
     >
