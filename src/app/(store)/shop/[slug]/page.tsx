@@ -144,26 +144,21 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
             </p>
           )}
 
-          <div className="mt-6">
-            {p.universalFit ? (
-              <FitNotice tone="ok" title="Universal fit" body="Suitable for any vehicle." />
-            ) : vehicle ? (
-              fits ? (
-                <FitNotice tone="ok" title={`Fits your ${vehicleLabel(vehicle)}`} body="Confirmed against the fitment list below." />
+          {(p.universalFit || vehicle) && (
+            <div className="mt-6">
+              {p.universalFit ? (
+                <FitNotice tone="ok" title="Universal fit" body="Suitable for any vehicle." />
+              ) : fits ? (
+                <FitNotice tone="ok" title={`Fits your ${vehicleLabel(vehicle!)}`} body="Confirmed against the fitment list below." />
               ) : (
                 <FitNotice
                   tone="warn"
-                  title={`Does not fit your ${vehicleLabel(vehicle)}`}
+                  title={`Does not fit your ${vehicleLabel(vehicle!)}`}
                   body="Check the fitment list below, or browse parts for your vehicle."
                 />
-              )
-            ) : (
-              <div className="card p-4 sm:p-5">
-                <p className="mb-4 text-sm font-medium">Check fit for your vehicle</p>
-                <VehicleSelector tree={tree} current={null} />
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
 
           <div className="mt-6 space-y-3">
             <p className={`text-sm ${p.stockQty > 0 ? "text-ink-3" : "text-warn"}`}>
@@ -183,6 +178,14 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
               }}
             />
           </div>
+
+          {/* Below the buy button so it never pushes Add to cart off the screen. */}
+          {!p.universalFit && !vehicle && (
+            <div className="card mt-6 p-4 sm:p-5">
+              <p className="mb-4 text-sm font-medium">Check fit for your vehicle</p>
+              <VehicleSelector tree={tree} current={null} />
+            </div>
+          )}
 
           <ul className="mt-6 divide-y divide-border border-y border-border text-sm text-muted">
             <li className="py-2.5">{p.hazmat ? "Ships by ground service only" : "Ships in 1–2 business days"}</li>
