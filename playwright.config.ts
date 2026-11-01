@@ -17,8 +17,8 @@ export default defineConfig({
     screenshot: "only-on-failure",
   },
   projects: [
-    { name: "desktop", use: { ...devices["Desktop Chrome"] }, testMatch: /store\.spec/ },
-    { name: "mobile", use: { ...devices["Pixel 7"] }, testMatch: /mobile\.spec/ },
+    { name: "desktop", use: { ...devices["Desktop Chrome"] }, testMatch: /(screens|store)\.spec/ },
+    { name: "mobile", use: { ...devices["Pixel 7"] }, testMatch: /(mobile|screens)\.spec/ },
   ],
   webServer: process.env.E2E_BASE_URL
     ? undefined

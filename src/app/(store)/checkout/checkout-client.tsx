@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
-import { Check, Lock } from "lucide-react";
+import { Check } from "lucide-react";
 import { useCart } from "@/components/cart";
 import { formatCents } from "@/lib/money";
 
@@ -30,9 +30,9 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
   if (!ready) return <div className="h-96 animate-pulse rounded-lg bg-surface" />;
   if (items.length === 0 && !started) {
     return (
-      <div className="card mx-auto my-16 max-w-lg p-10 text-center">
-        <p>Your cart is empty.</p>
-        <Link href="/shop" className="btn mt-4">
+      <div className="mx-auto max-w-7xl px-4 py-14 sm:py-24">
+        <p className="display text-2xl">Your cart is empty.</p>
+        <Link href="/shop" className="btn mt-6">
           Shop parts
         </Link>
       </div>
@@ -110,14 +110,12 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
   const selectedRate = quote?.rates.find((r) => r.id === rateId);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 sm:py-10">
-    <h1 className="display mb-5 flex items-center gap-3 text-4xl sm:mb-6 sm:text-5xl">
-      Checkout <Lock className="h-7 w-7 text-accent" />
-    </h1>
-    <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1fr_380px] [&>*]:min-w-0">
-      <div className="space-y-5 sm:space-y-6">
+    <div className="mx-auto max-w-7xl px-4 py-7 sm:py-12">
+    <h1 className="display mb-6 text-3xl sm:mb-10 sm:text-4xl">Checkout</h1>
+    <div className="grid gap-8 lg:grid-cols-[1fr_380px] lg:gap-14 [&>*]:min-w-0">
+      <div className="space-y-8">
 
-        <form onSubmit={getRates} className="card space-y-4 p-4 sm:p-6">
+        <form onSubmit={getRates} className="space-y-4 border-t border-border pt-6">
           <StepTitle n={1} title="Contact & shipping" done={Boolean(quote)} />
           <div>
             <label className="label" htmlFor="email">
@@ -151,13 +149,13 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         </form>
 
         {quote && (
-          <div className="card space-y-3 p-4 sm:p-6">
+          <div className="space-y-3 border-t border-border pt-6">
             <StepTitle n={2} title="Shipping method" done={Boolean(started)} />
             {quote.hazmat && (
               <p className="text-sm text-muted">Your cart has items that can only ship by ground service.</p>
             )}
             {quote.rates.map((r) => (
-              <label key={r.id} className="flex cursor-pointer items-center gap-3 rounded-lg border border-border p-4 transition has-checked:border-accent has-checked:bg-accent-soft">
+              <label key={r.id} className="flex cursor-pointer items-center gap-3 rounded-md border border-border p-4 text-sm transition-colors has-checked:border-accent has-checked:bg-accent-soft">
                 <input
                   type="radio"
                   name="rate"
@@ -169,7 +167,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
                   {r.carrier} {r.service.replace(/([a-z])([A-Z])/g, "$1 $2")}
                   {r.deliveryDays && <span className="text-sm text-muted"> · about {r.deliveryDays} business days</span>}
                 </span>
-                <span className="font-semibold">{formatCents(r.rateCents)}</span>
+                <span className="font-medium tabular-nums">{formatCents(r.rateCents)}</span>
               </label>
             ))}
             {!started && (
@@ -181,7 +179,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         )}
 
         {started && stripePromise && (
-          <div className="card space-y-3 p-4 sm:p-6">
+          <div className="space-y-3 border-t border-border pt-6">
             <StepTitle n={3} title="Payment" done={false} />
             <Elements stripe={stripePromise} options={{ clientSecret: started.clientSecret }}>
               <PayForm started={started} />
@@ -192,11 +190,11 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
           <p className="text-sm text-warn">Payments are not configured on this store yet (Stripe keys missing).</p>
         )}
 
-        {error && <p className="rounded-md bg-warn/10 px-3 py-2 text-sm text-warn">{error}</p>}
+        {error && <p className="border-l-2 border-warn py-1 pl-3 text-sm text-warn">{error}</p>}
       </div>
 
-      <aside className="card order-first h-fit space-y-2 p-4 text-sm sm:p-6 lg:sticky lg:top-24 lg:order-none">
-        <h2 className="display mb-2 text-2xl">Order summary</h2>
+      <aside className="order-first h-fit space-y-2 rounded-xl bg-surface-2 p-5 text-sm sm:p-6 lg:sticky lg:top-24 lg:order-none">
+        <h2 className="display mb-3 text-lg">Order summary</h2>
         {items.map((i) => (
           <div key={i.productId} className="flex justify-between gap-2">
             <span>
@@ -213,9 +211,9 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         <Row label="Shipping" cents={started?.totals.shippingCents ?? selectedRate?.rateCents ?? null} />
         <Row label="Tax" cents={started ? started.totals.taxCents : taxEnabled ? null : 0} />
         <hr className="border-border" />
-        <div className="flex items-baseline justify-between font-bold">
+        <div className="flex items-baseline justify-between font-medium">
           <span>Total</span>
-          <span className="display text-3xl normal-case">{started ? formatCents(started.totals.totalCents) : "—"}</span>
+          <span className="text-lg tabular-nums">{started ? formatCents(started.totals.totalCents) : "—"}</span>
         </div>
       </aside>
     </div>
@@ -226,8 +224,8 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
 function Row({ label, cents }: { label: string; cents: number | null }) {
   return (
     <div className="flex justify-between">
-      <span>{label}</span>
-      <span>{cents === null ? "Calculated next" : formatCents(cents)}</span>
+      <span className="text-muted">{label}</span>
+      <span className="tabular-nums">{cents === null ? "Calculated next" : formatCents(cents)}</span>
     </div>
   );
 }
@@ -268,11 +266,9 @@ function PayForm({ started }: { started: Started }) {
 
 function StepTitle({ n, title, done }: { n: number; title: string; done: boolean }) {
   return (
-    <h2 className="display flex items-center gap-3 text-2xl leading-none">
-      <span
-        className={`flex h-8 w-8 items-center justify-center rounded-full text-base text-white ${done ? "bg-ok" : "bg-accent"}`}
-      >
-        {done ? <Check className="h-4 w-4" strokeWidth={3} /> : n}
+    <h2 className="display flex items-center gap-3 text-xl">
+      <span className={`w-4 text-sm font-normal tabular-nums ${done ? "text-ok" : "text-muted"}`}>
+        {done ? <Check className="h-4 w-4" strokeWidth={1.5} /> : n}
       </span>
       {title}
     </h2>

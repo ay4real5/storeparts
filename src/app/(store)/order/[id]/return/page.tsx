@@ -54,7 +54,7 @@ async function Return({
       <Link href={`/order/${order.id}?token=${token}`} className="text-sm text-muted">
         ← Back to order {orderLabel(order.number)}
       </Link>
-      <h1 className="display text-5xl">Return or core return</h1>
+      <h1 className="display text-3xl sm:text-4xl">Return or core return</h1>
       <p className="text-sm text-muted">
         Returns are accepted within {config.returnWindowDays} days of purchase; core returns within{" "}
         {config.coreReturnWindowDays} days. Parts must be uninstalled and in original packaging unless defective.

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
-import { PackageCheck, RotateCcw, Search, ShieldCheck, ShoppingCart, Truck } from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
 import { CartCount, CartProvider } from "@/components/cart";
 import { Logo } from "@/components/logo";
 import { MobileTabBar } from "@/components/mobile-tab-bar";
@@ -10,44 +10,41 @@ const storeName = process.env.STORE_NAME ?? "StoreParts";
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
     <CartProvider>
-      <div className="bg-warm text-white">
-        <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 overflow-x-auto px-4 py-1.5 text-xs font-semibold whitespace-nowrap sm:justify-between">
-          <span className="flex items-center gap-1.5">
-            <ShieldCheck className="h-3.5 w-3.5" /> Fitment checked on every part
-          </span>
-          <span className="hidden items-center gap-1.5 sm:flex">
-            <Truck className="h-3.5 w-3.5" /> Ships in 1–2 business days
-          </span>
-          <span className="hidden items-center gap-1.5 md:flex">
-            <RotateCcw className="h-3.5 w-3.5" /> 30-day returns
-          </span>
+      <div className="bg-accent text-white/85">
+        <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4 py-2 text-xs sm:justify-between">
+          <span>Ships in 1–2 business days · 30-day returns</span>
+          <nav className="hidden gap-6 sm:flex">
+            <Link href="/track" className="hover:text-white">
+              Track order
+            </Link>
+            <Link href="/returns" className="hover:text-white">
+              Returns
+            </Link>
+          </nav>
         </div>
       </div>
 
-      <header className="sticky top-0 z-30 border-b border-border bg-white/90 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-2.5 px-4 py-3 sm:py-3.5">
+      <header className="border-b border-border bg-white sm:sticky sm:top-0 sm:z-30">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-10 gap-y-3 px-4 py-3.5 sm:py-4">
           <Logo />
           <form action="/shop" className="order-last w-full sm:order-none sm:w-auto sm:flex-1">
             <label className="relative block">
-              <Search className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-muted" />
+              <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted" strokeWidth={1.5} />
               <input
                 name="q"
                 type="search"
-                placeholder="Search by part, brand or SKU…"
+                placeholder="Search by part name, brand or SKU"
                 aria-label="Search"
-                className="w-full rounded-full border border-border bg-surface-2 py-2.5 pr-4 pl-10 text-sm outline-none transition placeholder:text-muted focus:border-accent focus:bg-white focus:ring-4 focus:ring-accent/10"
+                className="input pl-9"
               />
             </label>
           </form>
-          <nav className="ml-auto hidden items-center gap-1 text-sm font-semibold sm:flex">
-            <Link href="/shop" className="rounded-lg px-3 py-2 text-ink-3 transition hover:bg-surface-2 hover:text-accent">
+          <nav className="ml-auto hidden items-center gap-7 text-sm sm:flex">
+            <Link href="/shop" className="hover:text-accent">
               Shop
             </Link>
-            <Link href="/track" className="rounded-lg px-3 py-2 text-ink-3 transition hover:bg-surface-2 hover:text-accent">
-              Track order
-            </Link>
-            <Link href="/cart" className="btn ml-2 rounded-full px-4 py-2">
-              <ShoppingCart className="h-4 w-4" />
+            <Link href="/cart" className="flex items-center gap-2 hover:text-accent">
+              <ShoppingCart className="h-4 w-4" strokeWidth={1.5} />
               Cart
               <CartCount />
             </Link>
@@ -58,10 +55,10 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       <main className="w-full flex-1">{children}</main>
 
       <footer className="border-t border-border bg-surface-2 text-muted">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 sm:py-12 lg:grid-cols-4">
-          <div className="col-span-2 space-y-3 lg:col-span-1">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 sm:py-14 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+          <div className="col-span-2 max-w-xs space-y-3 lg:col-span-1">
             <Logo />
-            <p className="text-sm">Quality parts matched to your exact vehicle, shipped fast from our warehouse.</p>
+            <p className="text-sm leading-relaxed">Automotive parts matched to your exact vehicle.</p>
           </div>
           <FooterCol title="Shop">
             <Link href="/shop">All parts</Link>
@@ -75,16 +72,14 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
           </FooterCol>
           <FooterCol title="Policies">
             <Link href="/policies#shipping">Shipping</Link>
-            <Link href="/policies#returns">Returns &amp; cores</Link>
+            <Link href="/policies#returns">Returns and cores</Link>
             <Link href="/policies#privacy">Privacy</Link>
           </FooterCol>
         </div>
         <div className="border-t border-border">
           <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-xs">
             <span>© {storeName}. All rights reserved.</span>
-            <span className="hidden items-center gap-1.5 sm:flex">
-              <PackageCheck className="h-3.5 w-3.5" /> Secure checkout by Stripe · Apple Pay accepted
-            </span>
+            <span className="hidden sm:inline">Secure checkout by Stripe. Apple Pay accepted.</span>
           </div>
         </div>
       </footer>
@@ -101,8 +96,8 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
 function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="display mb-3 text-base text-ink">{title}</h3>
-      <div className="flex flex-col gap-2 text-sm [&_a]:transition [&_a:hover]:text-accent">{children}</div>
+      <h3 className="mb-3 text-sm font-medium text-ink">{title}</h3>
+      <div className="flex flex-col gap-2 text-sm [&_a:hover]:text-accent">{children}</div>
     </div>
   );
 }

@@ -37,9 +37,9 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
         <Link href="/admin/orders" className="text-sm text-muted">
           ← Orders
         </Link>
-        <h1 className="display text-4xl">Order {orderLabel(order.number)}</h1>
-        <span className="rounded-full bg-surface px-3 py-1 text-sm font-semibold ring-1 ring-border">{orderStatusLabel[order.status]}</span>
-        {order.hazmat && <span className="rounded bg-warn/15 px-2 py-1 text-xs font-semibold text-warn">HAZMAT: ground only</span>}
+        <h1 className="display text-2xl">Order {orderLabel(order.number)}</h1>
+        <span className="text-sm text-muted">{orderStatusLabel[order.status]}</span>
+        {order.hazmat && <span className="text-sm text-warn">Hazmat: ground only</span>}
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_360px] [&>*]:min-w-0">
@@ -89,7 +89,7 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
             {order.shipments.map((s) => (
               <div key={s.id} className="flex flex-wrap items-center gap-3 text-sm">
                 <span className={`rounded px-2 py-0.5 text-xs font-semibold ${s.isReturn ? "bg-border" : "bg-ok/15 text-ok"}`}>
-                  {s.isReturn ? "RETURN" : "OUTBOUND"}
+                  {s.isReturn ? "Return" : "Outbound"}
                 </span>
                 <span>
                   {s.carrier} {s.service} · <span className="font-mono">{s.trackingNumber}</span>
@@ -225,7 +225,7 @@ export default async function OrderDetailPage(props: PageProps<"/admin/orders/[i
 
 function Row({ label, value, bold }: { label: string; value: string; bold?: boolean }) {
   return (
-    <div className={`flex justify-between gap-4 ${bold ? "font-bold" : ""}`}>
+    <div className={`flex justify-between gap-4 ${bold ? "font-medium" : ""}`}>
       <dt>{label}</dt>
       <dd>{value}</dd>
     </div>

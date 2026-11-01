@@ -60,3 +60,6 @@ next-env.d.ts
 # playwright
 /playwright-report
 /test-results
+
+# design review screenshots
+/screens-output

@@ -30,7 +30,7 @@ export default async function ProductsPage(props: PageProps<"/admin/products">) 
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
-        <h1 className="display text-4xl">Products</h1>
+        <h1 className="display text-2xl">Products</h1>
         <form className="order-last w-full sm:order-none sm:ml-auto sm:w-auto">
           <input name="q" defaultValue={q} placeholder="Search title or SKU" className="input sm:w-64" />
         </form>
@@ -67,7 +67,7 @@ export default async function ProductsPage(props: PageProps<"/admin/products">) 
                       p.status === "ACTIVE" ? "bg-ok/15 text-ok" : "bg-border text-muted"
                     }`}
                   >
-                    {p.status}
+                    {p.status.charAt(0) + p.status.slice(1).toLowerCase()}
                   </span>
                 </td>
                 <td>{formatCents(p.priceCents)}</td>

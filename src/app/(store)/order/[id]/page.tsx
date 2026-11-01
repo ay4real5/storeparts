@@ -48,27 +48,27 @@ async function Order({
     <div className="mx-auto max-w-3xl space-y-6 px-4 py-10">
       {justPlaced && !paymentFailed && <ClearCartOnMount />}
       {justPlaced && !paymentFailed && (
-        <div className="rounded-lg bg-ok/10 p-5">
-          <h1 className="text-xl font-bold text-ok">Thank you! Your order is placed.</h1>
-          <p className="text-sm">A confirmation email is on its way to {order.email}. Bookmark this page to track your order.</p>
+        <div className="border-l-2 border-ok py-1 pl-4">
+          <h1 className="display text-lg text-ok">Thank you. Your order has been placed.</h1>
+          <p className="mt-1 text-sm text-muted">A confirmation email is on its way to {order.email}. Bookmark this page to track your order.</p>
         </div>
       )}
       {paymentFailed && (
-        <div className="rounded-lg bg-warn/10 p-5 text-warn">
+        <div className="border-l-2 border-warn py-1 pl-4 text-sm text-warn">
           Your payment didn’t go through. Your cart is still saved. <Link href="/checkout" className="underline">Try again</Link>.
         </div>
       )}
 
       <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="display text-4xl">Order {orderLabel(order.number)}</h2>
-        <span className="rounded-full bg-surface px-3 py-1 text-sm font-semibold ring-1 ring-border">
+        <h2 className="display text-3xl sm:text-4xl">Order {orderLabel(order.number)}</h2>
+        <span className="text-sm text-muted">
           {order.status === "PENDING_PAYMENT" && justPlaced ? "Confirming payment…" : orderStatusLabel[order.status]}
         </span>
       </div>
 
       {outbound.length > 0 && (
         <section className="card space-y-3 p-5">
-          <h3 className="display text-xl">Shipping</h3>
+          <h3 className="display text-lg">Shipping</h3>
           {outbound.map((s) => (
             <div key={s.id} className="text-sm">
               <p>
@@ -79,8 +79,8 @@ async function Order({
                 {s.estDeliveryAt && ` · estimated delivery ${s.estDeliveryAt.toLocaleDateString("en-US")}`}
               </p>
               {s.trackingUrl && (
-                <a href={s.trackingUrl} target="_blank" rel="noreferrer" className="font-semibold text-accent">
-                  Live tracking →
+                <a href={s.trackingUrl} target="_blank" rel="noreferrer" className="link">
+                  Live tracking
                 </a>
               )}
             </div>
@@ -89,7 +89,7 @@ async function Order({
       )}
 
       <section className="card p-5">
-        <h3 className="display mb-3 text-xl">Items</h3>
+        <h3 className="display mb-3 text-lg">Items</h3>
         <ul className="space-y-2 text-sm">
           {order.items.map((i) => (
             <li key={i.id} className="flex justify-between gap-4">
@@ -119,7 +119,7 @@ async function Order({
 
       {order.returns.length > 0 && (
         <section className="card space-y-3 p-5">
-          <h3 className="display text-xl">Returns</h3>
+          <h3 className="display text-lg">Returns</h3>
           {order.returns.map((r) => (
             <div key={r.id} className="text-sm">
               <p className="font-medium">
@@ -145,7 +145,7 @@ async function Order({
 
 function Line({ label, cents, bold }: { label: string; cents: number; bold?: boolean }) {
   return (
-    <div className={`flex justify-between ${bold ? "font-bold" : ""}`}>
+    <div className={`flex justify-between ${bold ? "font-medium" : ""}`}>
       <dt>{label}</dt>
       <dd>{formatCents(cents)}</dd>
     </div>

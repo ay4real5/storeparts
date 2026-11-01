@@ -30,7 +30,7 @@ export default async function ReturnsPage(props: PageProps<"/admin/returns">) {
   return (
     <div className="space-y-4">
       <div className="flex items-center gap-4">
-        <h1 className="display text-4xl">Returns &amp; cores</h1>
+        <h1 className="display text-2xl">Returns &amp; cores</h1>
         <Link href={showClosed ? "/admin/returns" : "/admin/returns?closed=1"} className="text-sm text-accent">
           {showClosed ? "Show open" : "Show closed"}
         </Link>
@@ -46,15 +46,15 @@ export default async function ReturnsPage(props: PageProps<"/admin/returns">) {
         return (
           <article key={r.id} className="card space-y-4 p-5">
             <header className="flex flex-wrap items-center gap-3">
-              <span className={`rounded px-2 py-0.5 text-xs font-bold ${r.type === "CORE" ? "bg-border" : "bg-accent/15 text-accent"}`}>
-                {r.type === "CORE" ? "CORE" : "RETURN"}
+              <span className={`chip ${r.type === "CORE" ? "bg-surface-2 text-ink-3" : "bg-accent-soft text-accent"}`}>
+                {r.type === "CORE" ? "Core" : "Return"}
               </span>
               <Link href={`/admin/orders/${r.orderId}`} className="font-semibold text-accent">
                 {orderLabel(r.order.number)}
               </Link>
               <span>{r.order.shipName}</span>
               <span className="text-sm text-muted">{r.createdAt.toLocaleDateString("en-US")}</span>
-              <span className="ml-auto rounded-full px-3 py-1 text-sm font-semibold ring-1 ring-border">{returnStatusLabel[r.status]}</span>
+              <span className="ml-auto text-sm text-muted">{returnStatusLabel[r.status]}</span>
             </header>
             <div className="text-sm">
               <p>{r.items.map((i) => `${i.qty} × ${i.orderItem.title} (${i.orderItem.sku})`).join(", ")}</p>

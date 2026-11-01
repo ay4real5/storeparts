@@ -76,6 +76,13 @@ jobs:
         run: npm run db:seed -- --demo
       - run: npx playwright install --with-deps chromium
       - run: npx playwright test
+      - name: Upload page screenshots for design review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: screens
+          path: screens-output
+          retention-days: 14
       - name: Upload report on failure
         if: failure()
         uses: actions/upload-artifact@v4

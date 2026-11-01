@@ -56,12 +56,12 @@ export default async function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="display text-4xl">Dashboard</h1>
+      <h1 className="display text-2xl">Dashboard</h1>
 
       {setup.length > 0 && (
-        <div className="card border-warn/40 p-4">
-          <h2 className="mb-2 font-semibold text-warn">Setup to finish</h2>
-          <ul className="list-disc space-y-1 pl-5 text-sm">
+        <div className="card bg-surface-2 p-4 sm:p-5">
+          <h2 className="mb-2 text-sm font-medium">Setup to finish</h2>
+          <ul className="list-disc space-y-1 pl-5 text-sm text-ink-3">
             {setup.map((s) => (
               <li key={s}>{s}</li>
             ))}
@@ -69,7 +69,7 @@ export default async function Dashboard() {
         </div>
       )}
       {oversold > 0 && (
-        <p className="card border-warn p-4 text-sm font-semibold text-warn">
+        <p className="border-l-2 border-warn py-1 pl-4 text-sm text-warn">
           {oversold} product(s) have negative stock: a payment completed after its reservation expired. Check inventory.
         </p>
       )}
@@ -83,9 +83,9 @@ export default async function Dashboard() {
 
       <div className="grid gap-6 lg:grid-cols-2">
         <section className="card p-4">
-          <h2 className="display mb-3 text-xl">Ship next</h2>
+          <h2 className="display mb-3 text-base">Ship next</h2>
           {toShip.length === 0 ? (
-            <p className="text-sm text-muted">Nothing waiting. 🎉</p>
+            <p className="text-sm text-muted">Nothing waiting.</p>
           ) : (
             <ul className="divide-y divide-border text-sm">
               {toShip.map((o) => (
@@ -101,7 +101,7 @@ export default async function Dashboard() {
           )}
         </section>
         <section className="card p-4">
-          <h2 className="display mb-3 text-xl">Low stock (≤ {config.lowStockThreshold})</h2>
+          <h2 className="display mb-3 text-base">Low stock (≤ {config.lowStockThreshold})</h2>
           {lowStock.length === 0 ? (
             <p className="text-sm text-muted">All stocked up.</p>
           ) : (
@@ -125,13 +125,13 @@ export default async function Dashboard() {
 function Stat({ label, value, sub, href }: { label: string; value: string; sub?: string; href?: string }) {
   const body = (
     <>
-      <p className="text-xs font-semibold uppercase tracking-wide text-muted">{label}</p>
-      <p className="display mt-1 text-4xl normal-case">{value}</p>
+      <p className="text-[13px] text-muted">{label}</p>
+      <p className="display mt-1 text-2xl tabular-nums">{value}</p>
       {sub && <p className="text-xs text-muted">{sub}</p>}
     </>
   );
   return href ? (
-    <Link href={href} className="card p-4 hover:border-accent">
+    <Link href={href} className="card p-4 transition-colors hover:border-ink-3">
       {body}
     </Link>
   ) : (

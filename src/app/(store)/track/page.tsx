@@ -6,7 +6,7 @@ export const metadata: Metadata = { title: "Track your order" };
 export default function TrackPage() {
   return (
     <div className="mx-auto max-w-md space-y-4 px-4 py-16">
-      <h1 className="display text-5xl">Track your order</h1>
+      <h1 className="display text-3xl sm:text-4xl">Track your order</h1>
       <p className="text-sm text-muted">Enter the order number from your confirmation email.</p>
       <OrderLookupForm next="status" />
     </div>

@@ -20,6 +20,7 @@ const csp = [
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  devIndicators: false,
   cacheComponents: true,
   partialPrefetching: true,
   turbopack: {

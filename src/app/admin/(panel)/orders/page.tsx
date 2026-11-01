@@ -42,7 +42,7 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-3">
-        <h1 className="display text-4xl">Orders</h1>
+        <h1 className="display text-2xl">Orders</h1>
         <form className="flex w-full gap-2 sm:ml-auto sm:w-auto">
           <input type="hidden" name="status" value={status} />
           <input name="q" defaultValue={q} placeholder="Order #, email or name" className="input sm:w-64" />
@@ -53,7 +53,7 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
           <Link
             key={f}
             href={`/admin/orders?status=${f}`}
-            className={`shrink-0 rounded-full px-3 py-1 whitespace-nowrap ring-1 ring-border ${f === status ? "bg-accent text-white ring-accent" : "bg-surface"}`}
+            className={`shrink-0 rounded-md px-3 py-1 whitespace-nowrap ring-1 ring-border ${f === status ? "bg-accent text-white ring-accent" : "bg-surface"}`}
           >
             {f === "ALL" ? "All" : f === "PAID" ? "To ship" : orderStatusLabel[f]}
           </Link>
@@ -88,7 +88,7 @@ export default async function OrdersPage(props: PageProps<"/admin/orders">) {
                 <td>{formatCents(o.totalCents)}</td>
                 <td>
                   {orderStatusLabel[o.status]}
-                  {o.hazmat && <span className="ml-1 rounded bg-warn/15 px-1 text-xs text-warn">HAZMAT</span>}
+                  {o.hazmat && <span className="ml-1 text-xs text-warn">Hazmat</span>}
                 </td>
               </tr>
             ))}
