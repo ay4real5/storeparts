@@ -1,11 +1,11 @@
-// Stand-in for products without photos: a fine line drawing on grey, in the
-// manner of a parts catalogue. Chosen by keyword so new products need no code.
+// Stand-in for products without photos: a fine white line drawing on navy, like
+// an engineering blueprint. Chosen by keyword so new products need no code.
 
 function polar(r: number, angle: number) {
   return { x: (60 + Math.cos(angle) * r).toFixed(2), y: (60 + Math.sin(angle) * r).toFixed(2) };
 }
 
-function Rotor() {
+export function RotorLines() {
   return (
     <>
       <circle cx="60" cy="60" r="52" />
@@ -105,7 +105,7 @@ function Generic() {
 
 const DRAWINGS: [RegExp, () => React.ReactNode][] = [
   [/wiper/i, Wiper],
-  [/brake|rotor|caliper|pad/i, Rotor],
+  [/brake|rotor|caliper|pad/i, RotorLines],
   [/batter/i, Battery],
   [/alternator|starter|electric/i, Alternator],
   [/filter/i, Filter],
@@ -116,14 +116,14 @@ export function PartArt({ hints, className = "" }: { hints: (string | null | und
   const text = hints.filter(Boolean).join(" ");
   const Drawing = DRAWINGS.find(([match]) => match.test(text))?.[1] ?? Generic;
   return (
-    <div className={`flex items-center justify-center bg-surface-2 ${className}`}>
+    <div className={`flex items-center justify-center bg-accent ${className}`}>
       <svg
         viewBox="0 0 120 120"
         aria-hidden
         fill="none"
         stroke="currentColor"
         strokeWidth="1"
-        className="h-3/5 w-3/5 text-muted/55 [&_*]:[vector-effect:non-scaling-stroke]"
+        className="h-3/5 w-3/5 text-white/60 [&_*]:[vector-effect:non-scaling-stroke]"
       >
         <Drawing />
       </svg>

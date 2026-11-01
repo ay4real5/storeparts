@@ -3,6 +3,7 @@ import { connection } from "next/server";
 import { Suspense } from "react";
 import { db } from "@/lib/db";
 import { fitmentMatches, getSelectedVehicle, getVehicleTree } from "@/lib/fitment";
+import { RotorLines } from "@/components/part-art";
 import { ProductCard } from "@/components/product-card";
 import { VehicleSelector } from "@/components/vehicle-selector";
 
@@ -16,41 +17,53 @@ const FACTS = [
 export default function HomePage() {
   return (
     <>
-      <section className="border-b border-border bg-surface-2">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:px-10 py-10 sm:py-20 lg:grid-cols-[1fr_420px] lg:items-center lg:gap-24">
+      <section className="relative overflow-hidden bg-accent text-white">
+        {/* A static blueprint of a brake rotor, faint behind the headline. */}
+        <svg
+          viewBox="0 0 120 120"
+          aria-hidden
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1"
+          className="pointer-events-none absolute top-1/2 right-[22%] hidden h-[820px] w-[820px] -translate-y-1/2 text-white/[0.09] lg:block [&_*]:[vector-effect:non-scaling-stroke]"
+        >
+          <RotorLines />
+        </svg>
+
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:px-6 sm:py-20 lg:grid-cols-[1fr_420px] lg:items-center lg:gap-24 lg:px-10">
           <div className="max-w-2xl">
             <h1 className="display text-[2.125rem] leading-[1.12] sm:text-[3.25rem]">
               Parts matched to the exact vehicle you drive.
             </h1>
-            <p className="mt-5 max-w-xl leading-relaxed text-muted sm:text-lg">
+            <p className="mt-5 max-w-xl leading-relaxed text-white/75 sm:text-lg">
               Select your year, make and model. We list only what fits, with the years, trims and engines confirmed on
               every product.
             </p>
-            <Link href="/shop" className="btn-secondary mt-8 hidden lg:inline-flex">
+            <Link href="/shop" className="btn-outline-inverse mt-8 hidden lg:inline-flex">
               Browse all parts
             </Link>
           </div>
-          <div className="rounded-xl border border-border bg-white p-5 sm:p-7">
+          <div className="rounded-xl bg-white p-5 text-foreground sm:p-7">
             <h2 className="display mb-5 text-lg">Find parts for your vehicle</h2>
             <Suspense fallback={<div className="h-64 animate-pulse bg-surface-2" />}>
               <HomeVehicle />
             </Suspense>
           </div>
         </div>
+
+        <div className="relative border-t border-white/15">
+          <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-x-8 gap-y-6 px-4 py-8 sm:px-6 sm:py-10 lg:grid-cols-4 lg:px-10">
+            {FACTS.map(([title, body]) => (
+              <div key={title}>
+                <dt className="text-sm font-medium">{title}</dt>
+                <dd className="mt-1 text-sm leading-relaxed text-white/70">{body}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
       </section>
 
-      <section className="border-b border-border">
-        <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-x-8 gap-y-6 px-4 sm:px-6 lg:px-10 py-8 sm:py-10 lg:grid-cols-4">
-          {FACTS.map(([title, body]) => (
-            <div key={title}>
-              <dt className="text-sm font-medium">{title}</dt>
-              <dd className="mt-1 text-sm leading-relaxed text-muted">{body}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
-
-      <div className="mx-auto max-w-7xl space-y-14 px-4 sm:px-6 lg:px-10 py-12 sm:space-y-20 sm:py-20">
+      <div className="mx-auto max-w-7xl space-y-14 px-4 py-12 sm:space-y-20 sm:px-6 sm:py-20 lg:px-10">
         <Suspense fallback={<div className="h-32 animate-pulse bg-surface-2" />}>
           <Categories />
         </Suspense>
@@ -61,20 +74,22 @@ export default function HomePage() {
             <Featured />
           </Suspense>
         </section>
+      </div>
 
-        <section className="grid gap-5 border-t border-border pt-10 sm:pt-14 lg:grid-cols-[1fr_2fr] lg:gap-24">
+      <section className="bg-surface-2">
+        <div className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 sm:py-16 lg:grid-cols-[1fr_2fr] lg:gap-24 lg:px-10">
           <h2 className="display text-2xl sm:text-3xl">Core returns</h2>
           <div className="max-w-2xl">
-            <p className="leading-relaxed text-muted">
+            <p className="leading-relaxed text-ink-3">
               Remanufactured parts such as alternators and starters carry a refundable core deposit. Return your old
               part in the same box and we refund the deposit to your original payment method.
             </p>
-            <Link href="/returns" className="btn-secondary mt-6">
+            <Link href="/returns" className="btn mt-6">
               Start a core return
             </Link>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </>
   );
 }
@@ -110,7 +125,7 @@ async function Categories() {
       <SectionHeading title="Shop by category" />
       <ul className="grid gap-x-8 sm:grid-cols-2 lg:grid-cols-3">
         {categories.map((c) => (
-          <li key={c.id} className="border-t border-border">
+          <li key={c.id} className="border-t-2 border-accent">
             <Link href={`/shop?category=${c.slug}`} className="group flex items-baseline justify-between gap-4 py-4">
               <span className="font-medium group-hover:text-accent group-hover:underline group-hover:underline-offset-4">
                 {c.name}

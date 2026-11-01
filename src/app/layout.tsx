@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -12,6 +12,8 @@ export const metadata: Metadata = {
   title: { default: `${storeName} | Auto parts matched to your vehicle`, template: `%s | ${storeName}` },
   description: "Automotive parts matched to your exact vehicle, with confirmed fitment on every listing.",
 };
+
+export const viewport: Viewport = { themeColor: "#12304f" };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

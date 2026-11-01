@@ -6,6 +6,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements, PaymentElement, useElements, useStripe } from "@stripe/react-stripe-js";
 import { Check } from "lucide-react";
 import { useCart } from "@/components/cart";
+import { PageHeader } from "@/components/page-header";
 import { formatCents } from "@/lib/money";
 
 type Rate = { id: string; carrier: string; service: string; rateCents: number; deliveryDays: number | null };
@@ -110,12 +111,13 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
   const selectedRate = quote?.rates.find((r) => r.id === rateId);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-7 sm:py-12">
-    <h1 className="display mb-6 text-3xl sm:mb-10 sm:text-4xl">Checkout</h1>
+    <>
+    <PageHeader title="Checkout" />
+    <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-12 lg:px-10">
     <div className="grid gap-8 lg:grid-cols-[1fr_380px] lg:gap-14 [&>*]:min-w-0">
       <div className="space-y-8">
 
-        <form onSubmit={getRates} className="space-y-4 border-t border-border pt-6">
+        <form onSubmit={getRates} className="space-y-4">
           <StepTitle n={1} title="Contact & shipping" done={Boolean(quote)} />
           <div>
             <label className="label" htmlFor="email">
@@ -193,7 +195,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
         {error && <p className="border-l-2 border-warn py-1 pl-3 text-sm text-warn">{error}</p>}
       </div>
 
-      <aside className="order-first h-fit space-y-2 rounded-xl bg-surface-2 p-5 text-sm sm:p-6 lg:sticky lg:top-24 lg:order-none">
+      <aside className="order-first h-fit space-y-2 rounded-xl bg-accent p-5 text-sm text-white sm:p-6 lg:sticky lg:top-24 lg:order-none">
         <h2 className="display mb-3 text-lg">Order summary</h2>
         {items.map((i) => (
           <div key={i.productId} className="flex justify-between gap-2">
@@ -203,14 +205,14 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
             <span>{formatCents(i.priceCents * i.qty)}</span>
           </div>
         ))}
-        <hr className="border-border" />
+        <hr className="border-white/15" />
         <Row label="Subtotal" cents={started?.totals.subtotalCents ?? subtotalCents} />
         {(started?.totals.coreChargeCents ?? coreChargeCents) > 0 && (
           <Row label="Core deposits (refundable)" cents={started?.totals.coreChargeCents ?? coreChargeCents} />
         )}
         <Row label="Shipping" cents={started?.totals.shippingCents ?? selectedRate?.rateCents ?? null} />
         <Row label="Tax" cents={started ? started.totals.taxCents : taxEnabled ? null : 0} />
-        <hr className="border-border" />
+        <hr className="border-white/15" />
         <div className="flex items-baseline justify-between font-medium">
           <span>Total</span>
           <span className="text-lg tabular-nums">{started ? formatCents(started.totals.totalCents) : "—"}</span>
@@ -218,13 +220,14 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
       </aside>
     </div>
     </div>
+    </>
   );
 }
 
 function Row({ label, cents }: { label: string; cents: number | null }) {
   return (
     <div className="flex justify-between">
-      <span className="text-muted">{label}</span>
+      <span className="text-white/70">{label}</span>
       <span className="tabular-nums">{cents === null ? "Calculated next" : formatCents(cents)}</span>
     </div>
   );

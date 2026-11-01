@@ -103,7 +103,7 @@ export function CartCount() {
   const { count, ready } = useCart();
   if (!ready || count === 0) return null;
   return (
-    <span className="text-muted tabular-nums">({count})</span>
+    <span className="text-white/70 tabular-nums">({count})</span>
   );
 }
 

@@ -12,21 +12,21 @@ export const metadata: Metadata = { title: { default: "Admin", template: "%s · 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex flex-1 flex-col">
-      <header className="border-b border-border bg-white">
+      <header className="bg-accent text-white">
         <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-1 px-4 sm:px-6 lg:px-10 pt-3 lg:py-3">
           <div className="flex items-baseline gap-2">
-            <Logo href="/admin" />
-            <span className="text-sm text-muted">Admin</span>
+            <Logo href="/admin" inverse />
+            <span className="text-sm text-white/60">Admin</span>
           </div>
           <Suspense fallback={null}>
             <AdminNav />
           </Suspense>
-          <div className="ml-auto flex items-center gap-5 text-sm text-muted">
-            <Link href="/" target="_blank" className="hover:text-ink">
+          <div className="ml-auto flex items-center gap-5 text-sm text-white/70">
+            <Link href="/" target="_blank" className="hover:text-white">
               View store
             </Link>
             <form action={logout}>
-              <button className="hover:text-ink">Sign out</button>
+              <button className="hover:text-white">Sign out</button>
             </form>
           </div>
         </div>

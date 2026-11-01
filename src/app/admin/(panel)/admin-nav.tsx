@@ -22,7 +22,7 @@ export function AdminNav() {
             key={href}
             href={href}
             className={`shrink-0 border-b-2 py-2.5 whitespace-nowrap transition-colors lg:py-1 ${
-              active ? "border-accent font-medium text-accent" : "border-transparent text-muted hover:text-ink"
+              active ? "border-white font-medium text-white" : "border-transparent text-white/70 hover:text-white"
             }`}
           >
             {label}

@@ -8,6 +8,7 @@ import { formatCents, orderLabel } from "@/lib/money";
 import { orderStatusLabel, returnReasonLabel, returnStatusLabel } from "@/lib/labels";
 import { tokensMatch } from "@/lib/tokens";
 import { ClearCartOnMount } from "@/components/cart";
+import { PageHeader } from "@/components/page-header";
 
 export const metadata: Metadata = { title: "Your order", robots: { index: false } };
 
@@ -45,101 +46,102 @@ async function Order({
   const returnable = ["PAID", "SHIPPED", "DELIVERED", "PARTIALLY_REFUNDED"].includes(order.status);
 
   return (
-    <div className="mx-auto max-w-3xl space-y-6 px-4 py-10">
-      {justPlaced && !paymentFailed && <ClearCartOnMount />}
-      {justPlaced && !paymentFailed && (
-        <div className="border-l-2 border-ok py-1 pl-4">
-          <h1 className="display text-lg text-ok">Thank you. Your order has been placed.</h1>
-          <p className="mt-1 text-sm text-muted">A confirmation email is on its way to {order.email}. Bookmark this page to track your order.</p>
-        </div>
-      )}
-      {paymentFailed && (
-        <div className="border-l-2 border-warn py-1 pl-4 text-sm text-warn">
-          Your payment didn’t go through. Your cart is still saved. <Link href="/checkout" className="underline">Try again</Link>.
-        </div>
-      )}
+    <>
+      <PageHeader
+        title={`Order ${orderLabel(order.number)}`}
+        sub={order.status === "PENDING_PAYMENT" && justPlaced ? "Confirming payment…" : orderStatusLabel[order.status]}
+      />
+      <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-12 lg:px-10">
+        <div className="max-w-3xl space-y-6">
+          {justPlaced && !paymentFailed && <ClearCartOnMount />}
+          {justPlaced && !paymentFailed && (
+            <div className="border-l-2 border-ok py-1 pl-4">
+              <h2 className="display text-lg text-ok">Thank you. Your order has been placed.</h2>
+              <p className="mt-1 text-sm text-muted">A confirmation email is on its way to {order.email}. Bookmark this page to track your order.</p>
+            </div>
+          )}
+          {paymentFailed && (
+            <div className="border-l-2 border-warn py-1 pl-4 text-sm text-warn">
+              Your payment didn’t go through. Your cart is still saved. <Link href="/checkout" className="underline">Try again</Link>.
+            </div>
+          )}
 
-      <div className="flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="display text-3xl sm:text-4xl">Order {orderLabel(order.number)}</h2>
-        <span className="text-sm text-muted">
-          {order.status === "PENDING_PAYMENT" && justPlaced ? "Confirming payment…" : orderStatusLabel[order.status]}
-        </span>
+          {outbound.length > 0 && (
+            <section className="card space-y-3 p-5">
+              <h3 className="display text-lg">Shipping</h3>
+              {outbound.map((s) => (
+                <div key={s.id} className="text-sm">
+                  <p>
+                    {s.carrier} {s.service} · tracking <span className="font-mono">{s.trackingNumber}</span>
+                  </p>
+                  <p className="text-muted">
+                    Status: {s.trackingStatus?.replace(/_/g, " ") ?? "label created"}
+                    {s.estDeliveryAt && ` · estimated delivery ${s.estDeliveryAt.toLocaleDateString("en-US")}`}
+                  </p>
+                  {s.trackingUrl && (
+                    <a href={s.trackingUrl} target="_blank" rel="noreferrer" className="link">
+                      Live tracking
+                    </a>
+                  )}
+                </div>
+              ))}
+            </section>
+          )}
+
+          <section className="card p-5">
+            <h3 className="display mb-3 text-lg">Items</h3>
+            <ul className="space-y-2 text-sm">
+              {order.items.map((i) => (
+                <li key={i.id} className="flex justify-between gap-4">
+                  <span>
+                    {i.qty} × {i.title} <span className="font-mono text-xs text-muted">({i.sku})</span>
+                    {i.coreChargeCents > 0 && (
+                      <span className="block text-xs text-muted">Core deposit {formatCents(i.coreChargeCents)} each</span>
+                    )}
+                  </span>
+                  <span>{formatCents(i.unitPriceCents * i.qty)}</span>
+                </li>
+              ))}
+            </ul>
+            <dl className="mt-4 space-y-1 border-t border-border pt-3 text-sm">
+              <Line label="Subtotal" cents={order.subtotalCents} />
+              {order.coreChargeCents > 0 && <Line label="Core deposits" cents={order.coreChargeCents} />}
+              <Line label="Shipping" cents={order.shippingCents} />
+              <Line label="Tax" cents={order.taxCents} />
+              <Line label="Total" cents={order.totalCents} bold />
+              {order.refundedCents > 0 && <Line label="Refunded" cents={-order.refundedCents} />}
+            </dl>
+            <p className="mt-4 text-sm text-muted">
+              Shipping to {order.shipName}, {order.shipLine1}
+              {order.shipLine2 ? `, ${order.shipLine2}` : ""}, {order.shipCity}, {order.shipState} {order.shipZip}
+            </p>
+          </section>
+
+          {order.returns.length > 0 && (
+            <section className="card space-y-3 p-5">
+              <h3 className="display text-lg">Returns</h3>
+              {order.returns.map((r) => (
+                <div key={r.id} className="text-sm">
+                  <p className="font-medium">
+                    {r.type === "CORE" ? "Core return" : "Return"} · {returnStatusLabel[r.status]}
+                  </p>
+                  <p className="text-muted">
+                    {r.items.map((i) => `${i.qty} × ${i.orderItem.title}`).join(", ")} — {returnReasonLabel[r.reason]}
+                    {r.refundCents ? ` · refunded ${formatCents(r.refundCents)}` : ""}
+                  </p>
+                </div>
+              ))}
+            </section>
+          )}
+
+          {returnable && (
+            <Link href={`/order/${order.id}/return?token=${order.accessToken}`} className="btn-secondary">
+              Return a part or send back a core
+            </Link>
+          )}
+        </div>
       </div>
-
-      {outbound.length > 0 && (
-        <section className="card space-y-3 p-5">
-          <h3 className="display text-lg">Shipping</h3>
-          {outbound.map((s) => (
-            <div key={s.id} className="text-sm">
-              <p>
-                {s.carrier} {s.service} · tracking <span className="font-mono">{s.trackingNumber}</span>
-              </p>
-              <p className="text-muted">
-                Status: {s.trackingStatus?.replace(/_/g, " ") ?? "label created"}
-                {s.estDeliveryAt && ` · estimated delivery ${s.estDeliveryAt.toLocaleDateString("en-US")}`}
-              </p>
-              {s.trackingUrl && (
-                <a href={s.trackingUrl} target="_blank" rel="noreferrer" className="link">
-                  Live tracking
-                </a>
-              )}
-            </div>
-          ))}
-        </section>
-      )}
-
-      <section className="card p-5">
-        <h3 className="display mb-3 text-lg">Items</h3>
-        <ul className="space-y-2 text-sm">
-          {order.items.map((i) => (
-            <li key={i.id} className="flex justify-between gap-4">
-              <span>
-                {i.qty} × {i.title} <span className="font-mono text-xs text-muted">({i.sku})</span>
-                {i.coreChargeCents > 0 && (
-                  <span className="block text-xs text-muted">Core deposit {formatCents(i.coreChargeCents)} each</span>
-                )}
-              </span>
-              <span>{formatCents(i.unitPriceCents * i.qty)}</span>
-            </li>
-          ))}
-        </ul>
-        <dl className="mt-4 space-y-1 border-t border-border pt-3 text-sm">
-          <Line label="Subtotal" cents={order.subtotalCents} />
-          {order.coreChargeCents > 0 && <Line label="Core deposits" cents={order.coreChargeCents} />}
-          <Line label="Shipping" cents={order.shippingCents} />
-          <Line label="Tax" cents={order.taxCents} />
-          <Line label="Total" cents={order.totalCents} bold />
-          {order.refundedCents > 0 && <Line label="Refunded" cents={-order.refundedCents} />}
-        </dl>
-        <p className="mt-4 text-sm text-muted">
-          Shipping to {order.shipName}, {order.shipLine1}
-          {order.shipLine2 ? `, ${order.shipLine2}` : ""}, {order.shipCity}, {order.shipState} {order.shipZip}
-        </p>
-      </section>
-
-      {order.returns.length > 0 && (
-        <section className="card space-y-3 p-5">
-          <h3 className="display text-lg">Returns</h3>
-          {order.returns.map((r) => (
-            <div key={r.id} className="text-sm">
-              <p className="font-medium">
-                {r.type === "CORE" ? "Core return" : "Return"} · {returnStatusLabel[r.status]}
-              </p>
-              <p className="text-muted">
-                {r.items.map((i) => `${i.qty} × ${i.orderItem.title}`).join(", ")} — {returnReasonLabel[r.reason]}
-                {r.refundCents ? ` · refunded ${formatCents(r.refundCents)}` : ""}
-              </p>
-            </div>
-          ))}
-        </section>
-      )}
-
-      {returnable && (
-        <Link href={`/order/${order.id}/return?token=${order.accessToken}`} className="btn-secondary">
-          Return a part or send back a core
-        </Link>
-      )}
-    </div>
+    </>
   );
 }
 

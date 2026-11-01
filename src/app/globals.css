@@ -1,28 +1,29 @@
 @import "tailwindcss";
 
 /*
- * Restrained light theme: white, neutral greys, graphite text and one navy
- * accent. Green and red are reserved for fit and stock status. The store
+ * One colour family: navy is the structure (header, hero, page titles, footer,
+ * money panels) and white is the reading surface. Greys and text carry a slight
+ * navy tint. Green and red are reserved for fit and stock status. The store
  * ignores the OS dark setting so every customer sees the same design.
  */
 :root {
   color-scheme: light;
   --background: #ffffff;
   --surface: #ffffff;
-  --surface-2: #f4f5f6;
-  --foreground: #16191d;
-  --muted: #5c636c;
-  --border: #dfe2e6;
+  --surface-2: #edf1f6;
+  --foreground: #14202e;
+  --muted: #566271;
+  --border: #d9dfe7;
   --accent: #12304f;
   --accent-strong: #0b2038;
-  --accent-soft: #eef1f5;
+  --accent-soft: #edf1f6;
   --ok: #1f6b4a;
   --ok-soft: #eef5f1;
   --warn: #a3302a;
   --warn-soft: #faf0ef;
-  --ink: #16191d;
-  --ink-2: #2a2f35;
-  --ink-3: #3f454d;
+  --ink: #14202e;
+  --ink-2: #243243;
+  --ink-3: #3a4757;
 }
 
 @theme inline {
@@ -73,11 +74,21 @@ body {
   .btn-secondary {
     @apply inline-flex items-center justify-center gap-2 rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium transition-colors hover:border-ink-3 disabled:opacity-50;
   }
+  /* For use on navy panels. */
+  .btn-inverse {
+    @apply inline-flex items-center justify-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-medium text-accent transition-colors hover:bg-white/90;
+  }
+  .btn-outline-inverse {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border border-white/40 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:border-white;
+  }
+  .link-inverse {
+    @apply text-white underline decoration-white/40 underline-offset-4 transition-colors hover:decoration-white;
+  }
   .btn-danger {
     @apply inline-flex items-center justify-center rounded-md border border-warn/40 px-4 py-2 text-sm font-medium text-warn transition-colors hover:border-warn;
   }
   .input {
-    @apply w-full rounded-md border border-border bg-surface px-3 py-2.5 text-sm outline-none transition-colors placeholder:text-muted/70 focus:border-accent disabled:opacity-60;
+    @apply w-full rounded-md border border-border bg-surface px-3 py-2.5 text-sm text-foreground outline-none transition-colors placeholder:text-muted/70 focus:border-accent disabled:opacity-60;
   }
   select.input {
     @apply appearance-none pr-9;
@@ -98,7 +109,7 @@ body {
     @apply w-full text-left text-sm;
   }
   .table th {
-    @apply border-b border-border px-3 py-2.5 text-[13px] font-medium text-muted;
+    @apply border-b border-border bg-surface-2 px-3 py-2.5 text-[13px] font-medium text-accent;
   }
   .table td {
     @apply border-b border-border px-3 py-3 align-top;

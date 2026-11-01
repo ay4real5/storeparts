@@ -81,206 +81,210 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-5 sm:py-8">
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
 
-      <nav className="mb-5 flex flex-wrap items-center gap-2 text-[13px] text-muted sm:mb-8">
-        <Link href="/shop" className="hover:text-accent">
-          Shop
-        </Link>
-        {p.category && (
-          <>
-            <span aria-hidden>/</span>
-            <Link href={`/shop?category=${p.category.slug}`} className="hover:text-accent">
-              {p.category.name}
-            </Link>
-          </>
-        )}
-        <span aria-hidden>/</span>
-        <span className="truncate text-ink-3">{p.title}</span>
-      </nav>
+      <div className="bg-surface-2">
+        <nav className="mx-auto flex max-w-7xl flex-wrap items-center gap-2 px-4 py-3 text-[13px] text-muted sm:px-6 lg:px-10">
+          <Link href="/shop" className="hover:text-accent">
+            Shop
+          </Link>
+          {p.category && (
+            <>
+              <span aria-hidden>/</span>
+              <Link href={`/shop?category=${p.category.slug}`} className="hover:text-accent">
+                {p.category.name}
+              </Link>
+            </>
+          )}
+          <span aria-hidden>/</span>
+          <span className="truncate text-ink-3">{p.title}</span>
+        </nav>
+      </div>
 
-      <div className="grid gap-7 lg:grid-cols-[1.15fr_1fr] lg:gap-16 [&>*]:min-w-0">
-        {/* Gallery */}
-        <div className="space-y-3">
-          <div className="aspect-[4/3] overflow-hidden rounded-xl">
-            {p.images[0] ? (
-              <div className="flex h-full items-center justify-center border border-border bg-white">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={p.images[0].url} alt={p.images[0].alt || p.title} className="h-full w-full object-contain p-8" />
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-10 lg:px-10">
+        <div className="grid gap-7 lg:grid-cols-[1.15fr_1fr] lg:gap-16 [&>*]:min-w-0">
+          {/* Gallery */}
+          <div className="space-y-3">
+            <div className="aspect-[4/3] overflow-hidden rounded-xl">
+              {p.images[0] ? (
+                <div className="flex h-full items-center justify-center border border-border bg-white">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={p.images[0].url} alt={p.images[0].alt || p.title} className="h-full w-full object-contain p-8" />
+                </div>
+              ) : (
+                <PartArt hints={[p.category?.slug, p.title]} className="h-full w-full" />
+              )}
+            </div>
+            {p.images.length > 1 && (
+              <div className="grid grid-cols-5 gap-3">
+                {p.images.slice(1).map((img) => (
+                  <a key={img.id} href={img.url} target="_blank" className="card aspect-square overflow-hidden bg-white transition-colors hover:border-ink-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={img.url} alt={img.alt || p.title} className="h-full w-full object-contain p-1.5" loading="lazy" />
+                  </a>
+                ))}
               </div>
-            ) : (
-              <PartArt hints={[p.category?.slug, p.title]} className="h-full w-full" />
             )}
           </div>
-          {p.images.length > 1 && (
-            <div className="grid grid-cols-5 gap-3">
-              {p.images.slice(1).map((img) => (
-                <a key={img.id} href={img.url} target="_blank" className="card aspect-square overflow-hidden bg-white transition-colors hover:border-ink-3">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={img.url} alt={img.alt || p.title} className="h-full w-full object-contain p-1.5" loading="lazy" />
-                </a>
-              ))}
+
+          {/* Buy box */}
+          <div>
+            {p.brand && <p className="text-sm text-muted">{p.brand}</p>}
+            <h1 className="display mt-1 text-[1.75rem] leading-tight sm:text-4xl">{p.title}</h1>
+            <p className="mt-2 font-mono text-xs text-muted">SKU {p.sku}</p>
+
+            <p className="mt-6 text-2xl font-medium tabular-nums sm:text-3xl">
+              {formatCents(p.priceCents)}
+              {onSale && <span className="ml-3 text-base font-normal text-muted line-through">{formatCents(p.compareAtCents!)}</span>}
+            </p>
+            {p.coreChargeCents > 0 && (
+              <p className="mt-2 text-sm leading-relaxed text-muted">
+                Plus a {formatCents(p.coreChargeCents)} core deposit, refunded when you return your old part.
+              </p>
+            )}
+
+            {(p.universalFit || vehicle) && (
+              <div className="mt-6">
+                {p.universalFit ? (
+                  <FitNotice tone="ok" title="Universal fit" body="Suitable for any vehicle." />
+                ) : fits ? (
+                  <FitNotice tone="ok" title={`Fits your ${vehicleLabel(vehicle!)}`} body="Confirmed against the fitment list below." />
+                ) : (
+                  <FitNotice
+                    tone="warn"
+                    title={`Does not fit your ${vehicleLabel(vehicle!)}`}
+                    body="Check the fitment list below, or browse parts for your vehicle."
+                  />
+                )}
+              </div>
+            )}
+
+            <div className="mt-6 space-y-3">
+              <p className={`text-sm ${p.stockQty > 0 ? "text-ink-3" : "text-warn"}`}>
+                {p.stockQty > 0 ? (p.stockQty <= 3 ? `Only ${p.stockQty} left in stock` : "In stock") : "Out of stock"}
+              </p>
+              <AddToCart
+                warnNoFit={fits === false}
+                item={{
+                  productId: p.id,
+                  slug: p.slug,
+                  title: p.title,
+                  sku: p.sku,
+                  priceCents: p.priceCents,
+                  coreChargeCents: p.coreChargeCents,
+                  image: p.images[0]?.url ?? null,
+                  maxQty: p.stockQty,
+                }}
+              />
             </div>
-          )}
+
+            {/* Below the buy button so it never pushes Add to cart off the screen. */}
+            {!p.universalFit && !vehicle && (
+              <div className="mt-6 rounded-xl bg-surface-2 p-4 sm:p-5">
+                <p className="mb-4 text-sm font-medium">Check fit for your vehicle</p>
+                <VehicleSelector tree={tree} current={null} />
+              </div>
+            )}
+
+            <ul className="mt-6 divide-y divide-border border-y border-border text-sm text-muted">
+              <li className="py-2.5">{p.hazmat ? "Ships by ground service only" : "Ships in 1–2 business days"}</li>
+              <li className="py-2.5">30-day returns</li>
+              <li className="py-2.5">Secure checkout by Stripe</li>
+            </ul>
+          </div>
         </div>
 
-        {/* Buy box */}
-        <div>
-          {p.brand && <p className="text-sm text-muted">{p.brand}</p>}
-          <h1 className="display mt-1 text-[1.75rem] leading-tight sm:text-4xl">{p.title}</h1>
-          <p className="mt-2 font-mono text-xs text-muted">SKU {p.sku}</p>
-
-          <p className="mt-6 text-2xl font-medium tabular-nums sm:text-3xl">
-            {formatCents(p.priceCents)}
-            {onSale && <span className="ml-3 text-base font-normal text-muted line-through">{formatCents(p.compareAtCents!)}</span>}
-          </p>
-          {p.coreChargeCents > 0 && (
-            <p className="mt-2 text-sm leading-relaxed text-muted">
-              Plus a {formatCents(p.coreChargeCents)} core deposit, refunded when you return your old part.
-            </p>
-          )}
-
-          {(p.universalFit || vehicle) && (
-            <div className="mt-6">
-              {p.universalFit ? (
-                <FitNotice tone="ok" title="Universal fit" body="Suitable for any vehicle." />
-              ) : fits ? (
-                <FitNotice tone="ok" title={`Fits your ${vehicleLabel(vehicle!)}`} body="Confirmed against the fitment list below." />
-              ) : (
-                <FitNotice
-                  tone="warn"
-                  title={`Does not fit your ${vehicleLabel(vehicle!)}`}
-                  body="Check the fitment list below, or browse parts for your vehicle."
-                />
-              )}
-            </div>
-          )}
-
-          <div className="mt-6 space-y-3">
-            <p className={`text-sm ${p.stockQty > 0 ? "text-ink-3" : "text-warn"}`}>
-              {p.stockQty > 0 ? (p.stockQty <= 3 ? `Only ${p.stockQty} left in stock` : "In stock") : "Out of stock"}
-            </p>
-            <AddToCart
-              warnNoFit={fits === false}
-              item={{
-                productId: p.id,
-                slug: p.slug,
-                title: p.title,
-                sku: p.sku,
-                priceCents: p.priceCents,
-                coreChargeCents: p.coreChargeCents,
-                image: p.images[0]?.url ?? null,
-                maxQty: p.stockQty,
-              }}
-            />
+        <div className="mt-12 grid gap-12 border-t border-border pt-10 sm:mt-16 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-16 [&>*]:min-w-0">
+          <div className="space-y-12">
+            {p.description && (
+              <section>
+                <h2 className="display mb-4 text-xl sm:text-2xl">Description</h2>
+                <div className="leading-relaxed whitespace-pre-line text-ink-3">{p.description}</div>
+              </section>
+            )}
+            {!p.universalFit && (
+              <section>
+                <h2 className="display mb-4 text-xl sm:text-2xl">Vehicle fitment</h2>
+                {p.fitments.length === 0 ? (
+                  <p className="text-sm text-muted">Fitment details coming soon. Contact us to confirm fit before ordering.</p>
+                ) : (
+                  <>
+                    {/* Phones: a stacked list instead of a wide table. */}
+                    <ul className="divide-y divide-border border-y border-border sm:hidden">
+                      {p.fitments.map((f) => {
+                        const mine = vehicle && fitmentMatches([f], false, vehicle);
+                        return (
+                          <li key={f.id} className="py-3 text-sm">
+                            <p className="font-medium">
+                              {f.yearStart === f.yearEnd ? f.yearStart : `${f.yearStart}–${f.yearEnd}`} {f.make} {f.model}
+                              {mine && <span className="ml-2 font-normal text-ok">Your vehicle</span>}
+                            </p>
+                            <p className="mt-0.5 text-muted">
+                              Trim: {f.submodel ?? "All"} · Engine: {f.engine ?? "All"}
+                              {f.notes && <> · {f.notes}</>}
+                            </p>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                    <div className="hidden overflow-x-auto border-y border-border sm:block">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Years</th>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Trim</th>
+                            <th>Engine</th>
+                            <th>Notes</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {p.fitments.map((f) => {
+                            const mine = vehicle && fitmentMatches([f], false, vehicle);
+                            return (
+                              <tr key={f.id} className={mine ? "bg-ok-soft font-medium" : ""}>
+                                <td className="whitespace-nowrap tabular-nums">
+                                  {f.yearStart === f.yearEnd ? f.yearStart : `${f.yearStart}–${f.yearEnd}`}
+                                </td>
+                                <td>{f.make}</td>
+                                <td>{f.model}</td>
+                                <td>{f.submodel ?? "All"}</td>
+                                <td>{f.engine ?? "All"}</td>
+                                <td className="font-normal text-muted">{f.notes}</td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                )}
+              </section>
+            )}
           </div>
 
-          {/* Below the buy button so it never pushes Add to cart off the screen. */}
-          {!p.universalFit && !vehicle && (
-            <div className="card mt-6 p-4 sm:p-5">
-              <p className="mb-4 text-sm font-medium">Check fit for your vehicle</p>
-              <VehicleSelector tree={tree} current={null} />
-            </div>
-          )}
-
-          <ul className="mt-6 divide-y divide-border border-y border-border text-sm text-muted">
-            <li className="py-2.5">{p.hazmat ? "Ships by ground service only" : "Ships in 1–2 business days"}</li>
-            <li className="py-2.5">30-day returns</li>
-            <li className="py-2.5">Secure checkout by Stripe</li>
-          </ul>
+          <section>
+            <h2 className="display mb-4 text-xl sm:text-2xl">Specifications</h2>
+            <dl className="divide-y divide-border border-y border-border">
+              {specs.map(([k, v]) => (
+                <div key={k} className="flex justify-between gap-4 py-2.5 text-sm">
+                  <dt className="text-muted">{k}</dt>
+                  <dd className="text-right">{v}</dd>
+                </div>
+              ))}
+            </dl>
+            <p className="mt-3 text-xs leading-relaxed text-muted">
+              Shipping is calculated at checkout from the actual box size and weight.
+            </p>
+          </section>
         </div>
       </div>
-
-      <div className="mt-12 grid gap-12 border-t border-border pt-10 sm:mt-16 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-16 [&>*]:min-w-0">
-        <div className="space-y-12">
-          {p.description && (
-            <section>
-              <h2 className="display mb-4 text-xl sm:text-2xl">Description</h2>
-              <div className="leading-relaxed whitespace-pre-line text-ink-3">{p.description}</div>
-            </section>
-          )}
-          {!p.universalFit && (
-            <section>
-              <h2 className="display mb-4 text-xl sm:text-2xl">Vehicle fitment</h2>
-              {p.fitments.length === 0 ? (
-                <p className="text-sm text-muted">Fitment details coming soon. Contact us to confirm fit before ordering.</p>
-              ) : (
-                <>
-                  {/* Phones: a stacked list instead of a wide table. */}
-                  <ul className="divide-y divide-border border-y border-border sm:hidden">
-                    {p.fitments.map((f) => {
-                      const mine = vehicle && fitmentMatches([f], false, vehicle);
-                      return (
-                        <li key={f.id} className="py-3 text-sm">
-                          <p className="font-medium">
-                            {f.yearStart === f.yearEnd ? f.yearStart : `${f.yearStart}–${f.yearEnd}`} {f.make} {f.model}
-                            {mine && <span className="ml-2 font-normal text-ok">Your vehicle</span>}
-                          </p>
-                          <p className="mt-0.5 text-muted">
-                            Trim: {f.submodel ?? "All"} · Engine: {f.engine ?? "All"}
-                            {f.notes && <> · {f.notes}</>}
-                          </p>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  <div className="hidden overflow-x-auto border-y border-border sm:block">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>Years</th>
-                          <th>Make</th>
-                          <th>Model</th>
-                          <th>Trim</th>
-                          <th>Engine</th>
-                          <th>Notes</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {p.fitments.map((f) => {
-                          const mine = vehicle && fitmentMatches([f], false, vehicle);
-                          return (
-                            <tr key={f.id} className={mine ? "bg-ok-soft font-medium" : ""}>
-                              <td className="whitespace-nowrap tabular-nums">
-                                {f.yearStart === f.yearEnd ? f.yearStart : `${f.yearStart}–${f.yearEnd}`}
-                              </td>
-                              <td>{f.make}</td>
-                              <td>{f.model}</td>
-                              <td>{f.submodel ?? "All"}</td>
-                              <td>{f.engine ?? "All"}</td>
-                              <td className="font-normal text-muted">{f.notes}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                </>
-              )}
-            </section>
-          )}
-        </div>
-
-        <section>
-          <h2 className="display mb-4 text-xl sm:text-2xl">Specifications</h2>
-          <dl className="divide-y divide-border border-y border-border">
-            {specs.map(([k, v]) => (
-              <div key={k} className="flex justify-between gap-4 py-2.5 text-sm">
-                <dt className="text-muted">{k}</dt>
-                <dd className="text-right">{v}</dd>
-              </div>
-            ))}
-          </dl>
-          <p className="mt-3 text-xs leading-relaxed text-muted">
-            Shipping is calculated at checkout from the actual box size and weight.
-          </p>
-        </section>
-      </div>
-    </div>
+    </>
   );
 }
 

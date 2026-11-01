@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { config } from "@/lib/config";
 import { orderLabel } from "@/lib/money";
 import { tokensMatch } from "@/lib/tokens";
+import { PageHeader } from "@/components/page-header";
 import { ReturnForm } from "./return-form";
 
 export const metadata: Metadata = { title: "Start a return", robots: { index: false } };
@@ -50,16 +51,20 @@ async function Return({
   });
 
   return (
-    <div className="mx-auto max-w-2xl space-y-4 px-4 py-10">
-      <Link href={`/order/${order.id}?token=${token}`} className="text-sm text-muted">
-        ← Back to order {orderLabel(order.number)}
-      </Link>
-      <h1 className="display text-3xl sm:text-4xl">Return or core return</h1>
-      <p className="text-sm text-muted">
-        Returns are accepted within {config.returnWindowDays} days of purchase; core returns within{" "}
-        {config.coreReturnWindowDays} days. Parts must be uninstalled and in original packaging unless defective.
-      </p>
-      <ReturnForm orderId={order.id} token={token} items={items} />
-    </div>
+    <>
+      <PageHeader
+        title="Return or core return"
+        sub={`Returns are accepted within ${config.returnWindowDays} days of purchase; core returns within ${config.coreReturnWindowDays} days. Parts must be uninstalled and in original packaging unless defective.`}
+      >
+        <Link href={`/order/${order.id}?token=${token}`} className="link-inverse">
+          Back to order {orderLabel(order.number)}
+        </Link>
+      </PageHeader>
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-12 lg:px-10">
+        <div className="max-w-2xl">
+          <ReturnForm orderId={order.id} token={token} items={items} />
+        </div>
+      </div>
+    </>
   );
 }

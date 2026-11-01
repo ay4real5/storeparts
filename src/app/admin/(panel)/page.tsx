@@ -59,7 +59,7 @@ export default async function Dashboard() {
       <h1 className="display text-2xl">Dashboard</h1>
 
       {setup.length > 0 && (
-        <div className="card bg-surface-2 p-4 sm:p-5">
+        <div className="rounded-xl bg-surface-2 p-4 sm:p-5">
           <h2 className="mb-2 text-sm font-medium">Setup to finish</h2>
           <ul className="list-disc space-y-1 pl-5 text-sm text-ink-3">
             {setup.map((s) => (
@@ -131,10 +131,10 @@ function Stat({ label, value, sub, href }: { label: string; value: string; sub?:
     </>
   );
   return href ? (
-    <Link href={href} className="card p-4 transition-colors hover:border-ink-3">
+    <Link href={href} className="card p-4 transition-colors hover:border-accent">
       {body}
     </Link>
   ) : (
-    <div className="card p-4">{body}</div>
+    <div className="rounded-xl bg-accent p-4 text-white [&_p]:text-white">{body}</div>
   );
 }

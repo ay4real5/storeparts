@@ -6,7 +6,7 @@ import { useState } from "react";
 export function MobileFilters({ vehicleLabel, children }: { vehicleLabel: string | null; children: React.ReactNode }) {
   const [open, setOpen] = useState(false);
   return (
-    <div className="card mb-4 lg:hidden">
+    <div className="mb-4 rounded-xl bg-surface-2 lg:hidden">
       <button
         type="button"
         aria-expanded={open}

@@ -10,8 +10,8 @@ const storeName = process.env.STORE_NAME ?? "StoreParts";
 export default function StoreLayout({ children }: { children: React.ReactNode }) {
   return (
     <CartProvider>
-      <div className="bg-accent text-white/85">
-        <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4 sm:px-6 lg:px-10 py-2 text-xs sm:justify-between">
+      <div className="bg-accent-strong text-white/80">
+        <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4 py-2 text-xs sm:justify-between sm:px-6 lg:px-10">
           <span>Ships in 1–2 business days · 30-day returns</span>
           <nav className="hidden gap-6 sm:flex">
             <Link href="/track" className="hover:text-white">
@@ -24,9 +24,9 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
         </div>
       </div>
 
-      <header className="border-b border-border bg-white sm:sticky sm:top-0 sm:z-30">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-10 gap-y-3 px-4 sm:px-6 lg:px-10 py-3.5 sm:py-4">
-          <Logo />
+      <header className="border-b border-white/10 bg-accent text-white sm:sticky sm:top-0 sm:z-30">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-10 gap-y-3 px-4 py-3.5 sm:px-6 sm:py-4 lg:px-10">
+          <Logo inverse />
           <form action="/shop" className="order-last w-full sm:order-none sm:w-auto sm:flex-1">
             <label className="relative block">
               <Search className="pointer-events-none absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted" strokeWidth={1.5} />
@@ -35,15 +35,15 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
                 type="search"
                 placeholder="Search by part name, brand or SKU"
                 aria-label="Search"
-                className="input pl-9"
+                className="input border-transparent pl-9"
               />
             </label>
           </form>
           <nav className="ml-auto hidden items-center gap-7 text-sm sm:flex">
-            <Link href="/shop" className="hover:text-accent">
+            <Link href="/shop" className="text-white/85 hover:text-white">
               Shop
             </Link>
-            <Link href="/cart" className="flex items-center gap-2 hover:text-accent">
+            <Link href="/cart" className="flex items-center gap-2 text-white/85 hover:text-white">
               <ShoppingCart className="h-4 w-4" strokeWidth={1.5} />
               Cart
               <CartCount />
@@ -54,10 +54,10 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
 
       <main className="w-full flex-1">{children}</main>
 
-      <footer className="border-t border-border bg-surface-2 text-muted">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-4 sm:px-6 lg:px-10 py-10 sm:py-14 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+      <footer className="bg-accent text-white/70">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 sm:px-6 sm:py-14 lg:grid-cols-[2fr_1fr_1fr_1fr] lg:px-10">
           <div className="col-span-2 max-w-xs space-y-3 lg:col-span-1">
-            <Logo />
+            <Logo inverse />
             <p className="text-sm leading-relaxed">Automotive parts matched to your exact vehicle.</p>
           </div>
           <FooterCol title="Shop">
@@ -76,15 +76,15 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
             <Link href="/policies#privacy">Privacy</Link>
           </FooterCol>
         </div>
-        <div className="border-t border-border">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 sm:px-6 lg:px-10 py-5 text-xs">
+        <div className="border-t border-white/10">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-xs sm:px-6 lg:px-10">
             <span>© {storeName}. All rights reserved.</span>
             <span className="hidden sm:inline">Secure checkout by Stripe. Apple Pay accepted.</span>
           </div>
         </div>
       </footer>
       {/* Room for the fixed tab bar on phones. */}
-      <div className="h-16 bg-surface-2 sm:hidden" />
+      <div className="h-16 bg-accent sm:hidden" />
       {/* The tab bar reads the URL, so it renders at request time. */}
       <Suspense fallback={null}>
         <MobileTabBar />
@@ -96,8 +96,8 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
 function FooterCol({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h3 className="mb-3 text-sm font-medium text-ink">{title}</h3>
-      <div className="flex flex-col gap-2 text-sm [&_a:hover]:text-accent">{children}</div>
+      <h3 className="mb-3 text-sm font-medium text-white">{title}</h3>
+      <div className="flex flex-col gap-2 text-sm [&_a]:transition-colors [&_a:hover]:text-white">{children}</div>
     </div>
   );
 }

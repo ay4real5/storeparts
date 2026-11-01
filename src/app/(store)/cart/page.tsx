@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Minus, Plus } from "lucide-react";
 import { useCart } from "@/components/cart";
+import { PageHeader } from "@/components/page-header";
 import { PartArt } from "@/components/part-art";
 import { formatCents } from "@/lib/money";
 
@@ -13,19 +14,23 @@ export default function CartPage() {
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-14 sm:py-24">
-        <h1 className="display text-3xl sm:text-4xl">Your cart is empty</h1>
-        <p className="mt-3 text-muted">Select your vehicle to find parts that fit.</p>
-        <Link href="/shop" className="btn mt-6">
-          Shop parts
-        </Link>
-      </div>
+      <>
+        <PageHeader title="Your cart" />
+        <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-16 lg:px-10">
+          <p className="display text-xl">Your cart is empty.</p>
+          <p className="mt-2 text-muted">Select your vehicle to find parts that fit.</p>
+          <Link href="/shop" className="btn mt-6">
+            Shop parts
+          </Link>
+        </div>
+      </>
     );
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-7 sm:py-12">
-      <h1 className="display mb-6 text-3xl sm:mb-10 sm:text-4xl">Your cart</h1>
+    <>
+    <PageHeader title="Your cart" />
+    <div className="mx-auto max-w-7xl px-4 py-7 sm:px-6 sm:py-12 lg:px-10">
       <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:gap-14 [&>*]:min-w-0">
         <ul className="self-start divide-y divide-border border-y border-border">
           {items.map((i) => (
@@ -79,34 +84,35 @@ export default function CartPage() {
           ))}
         </ul>
 
-        <aside className="h-fit space-y-3 rounded-xl bg-surface-2 p-5 text-sm sm:p-6 lg:sticky lg:top-24">
+        <aside className="h-fit space-y-3 rounded-xl bg-accent p-5 text-sm text-white sm:p-6 lg:sticky lg:top-24">
           <h2 className="display mb-4 text-lg">Summary</h2>
           <div className="flex justify-between">
-            <span className="text-muted">Subtotal</span>
+            <span className="text-white/70">Subtotal</span>
             <span className="tabular-nums">{formatCents(subtotalCents)}</span>
           </div>
           {coreChargeCents > 0 && (
             <div className="flex justify-between">
-              <span className="text-muted">Core deposits (refundable)</span>
+              <span className="text-white/70">Core deposits (refundable)</span>
               <span className="tabular-nums">{formatCents(coreChargeCents)}</span>
             </div>
           )}
           <div className="flex justify-between">
-            <span className="text-muted">Shipping and tax</span>
-            <span className="text-muted">At checkout</span>
+            <span className="text-white/70">Shipping and tax</span>
+            <span className="text-white/70">At checkout</span>
           </div>
-          <div className="flex items-baseline justify-between border-t border-border pt-3">
+          <div className="flex items-baseline justify-between border-t border-white/15 pt-3">
             <span className="font-medium">Estimated total</span>
             <span className="text-lg font-medium tabular-nums">{formatCents(subtotalCents + coreChargeCents)}</span>
           </div>
-          <Link href="/checkout" className="btn mt-2 w-full">
+          <Link href="/checkout" className="btn-inverse mt-2 w-full">
             Secure checkout
           </Link>
-          <Link href="/shop" className="link block pt-1 text-center">
+          <Link href="/shop" className="link-inverse block pt-1 text-center">
             Continue shopping
           </Link>
         </aside>
       </div>
     </div>
+    </>
   );
 }
