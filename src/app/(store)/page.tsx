@@ -25,7 +25,7 @@ export default function HomePage() {
           fill="none"
           stroke="currentColor"
           strokeWidth="1"
-          className="pointer-events-none absolute top-1/2 right-[22%] hidden h-[820px] w-[820px] -translate-y-1/2 text-white/[0.09] lg:block [&_*]:[vector-effect:non-scaling-stroke]"
+          className="pointer-events-none absolute top-1/2 right-[22%] hidden h-[820px] w-[820px] -translate-y-1/2 text-white/[0.07] lg:block [&_*]:[vector-effect:non-scaling-stroke]"
         >
           <RotorLines />
         </svg>
