@@ -88,7 +88,7 @@ You can use any scheduler, such as cron-job.org, a cron container, or a GitHub A
 
 ## Deploying with Docker
 
-Every push to `main` runs CI: typecheck, lint, apply migrations to an empty database, check the schema matches the migrations, and build. When CI passes, it publishes **`ghcr.io/ay4real5/storeparts:latest`** (plus a short-SHA tag).
+Every push to `main` runs CI: typecheck, lint, apply migrations to an empty database, check the schema matches the migrations, build, and run the Playwright browser tests in `e2e/`. When CI passes, it publishes **`ghcr.io/ay4real5/storeparts:latest`** (plus a short-SHA tag). Each run also uploads screenshots of the key pages, desktop and phone, as the `screens` artifact for design review.
 
 On a server, after logging in to GHCR if the package is private:
 

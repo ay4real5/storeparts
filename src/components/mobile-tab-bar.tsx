@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSyncExternalStore } from "react";
 import { Home, PackageSearch, ShoppingCart, Store } from "lucide-react";
 import { useCart } from "./cart";
 
@@ -12,10 +13,16 @@ const tabs = [
   { href: "/cart", label: "Cart", icon: ShoppingCart, match: (p: string) => p.startsWith("/cart") || p.startsWith("/checkout") },
 ];
 
+const subscribeNever = () => () => {};
+
 /** Thumb-reach navigation for phones; hidden from the sm breakpoint up. */
 export function MobileTabBar() {
   const path = usePathname();
   const { count, ready } = useCart();
+  // This bar hydrates inside a Suspense boundary, after the cart has already
+  // loaded from storage. Keep the badge out of its first render so it matches
+  // the server HTML.
+  const hydrated = useSyncExternalStore(subscribeNever, () => true, () => false);
   return (
     <nav
       aria-label="Main"
@@ -32,7 +39,7 @@ export function MobileTabBar() {
               >
                 <span className="relative">
                   <Icon className="h-5 w-5" strokeWidth={1.5} />
-                  {href === "/cart" && ready && count > 0 && (
+                  {href === "/cart" && hydrated && ready && count > 0 && (
                     <span className="absolute -top-1.5 -right-2.5 flex h-4 min-w-4 items-center justify-center rounded-sm bg-accent px-1 text-[10px] text-white">
                       {count}
                     </span>

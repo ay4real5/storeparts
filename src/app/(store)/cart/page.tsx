@@ -9,11 +9,11 @@ import { formatCents } from "@/lib/money";
 export default function CartPage() {
   const { items, ready, setQty, remove, subtotalCents, coreChargeCents } = useCart();
 
-  if (!ready) return <div className="mx-auto h-96 max-w-7xl animate-pulse px-4 py-10" />;
+  if (!ready) return <div className="mx-auto h-96 max-w-7xl animate-pulse px-4 sm:px-6 lg:px-10 py-10" />;
 
   if (items.length === 0) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-14 sm:py-24">
         <h1 className="display text-3xl sm:text-4xl">Your cart is empty</h1>
         <p className="mt-3 text-muted">Select your vehicle to find parts that fit.</p>
         <Link href="/shop" className="btn mt-6">
@@ -24,10 +24,10 @@ export default function CartPage() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-7 sm:py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-7 sm:py-12">
       <h1 className="display mb-6 text-3xl sm:mb-10 sm:text-4xl">Your cart</h1>
       <div className="grid gap-8 lg:grid-cols-[1fr_360px] lg:gap-14 [&>*]:min-w-0">
-        <ul className="divide-y divide-border border-y border-border">
+        <ul className="self-start divide-y divide-border border-y border-border">
           {items.map((i) => (
             <li key={i.productId} className="flex gap-4 py-4 sm:gap-5 sm:py-5">
               <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl sm:h-24 sm:w-24">

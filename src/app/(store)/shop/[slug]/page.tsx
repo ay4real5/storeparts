@@ -39,7 +39,7 @@ export async function generateMetadata(props: PageProps<"/shop/[slug]">): Promis
 
 export default function ProductPage(props: PageProps<"/shop/[slug]">) {
   return (
-    <Suspense fallback={<div className="mx-auto h-[600px] max-w-7xl animate-pulse px-4 py-10" />}>
+    <Suspense fallback={<div className="mx-auto h-[600px] max-w-7xl animate-pulse px-4 sm:px-6 lg:px-10 py-10" />}>
       <Product params={props.params} />
     </Suspense>
   );
@@ -81,7 +81,7 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
   ];
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-5 sm:py-8">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-5 sm:py-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}

@@ -11,7 +11,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
   return (
     <CartProvider>
       <div className="bg-accent text-white/85">
-        <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4 py-2 text-xs sm:justify-between">
+        <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4 sm:px-6 lg:px-10 py-2 text-xs sm:justify-between">
           <span>Ships in 1–2 business days · 30-day returns</span>
           <nav className="hidden gap-6 sm:flex">
             <Link href="/track" className="hover:text-white">
@@ -25,7 +25,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       </div>
 
       <header className="border-b border-border bg-white sm:sticky sm:top-0 sm:z-30">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-10 gap-y-3 px-4 py-3.5 sm:py-4">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-10 gap-y-3 px-4 sm:px-6 lg:px-10 py-3.5 sm:py-4">
           <Logo />
           <form action="/shop" className="order-last w-full sm:order-none sm:w-auto sm:flex-1">
             <label className="relative block">
@@ -55,7 +55,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
       <main className="w-full flex-1">{children}</main>
 
       <footer className="border-t border-border bg-surface-2 text-muted">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-4 py-10 sm:py-14 lg:grid-cols-[2fr_1fr_1fr_1fr]">
+        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-x-6 gap-y-8 px-4 sm:px-6 lg:px-10 py-10 sm:py-14 lg:grid-cols-[2fr_1fr_1fr_1fr]">
           <div className="col-span-2 max-w-xs space-y-3 lg:col-span-1">
             <Logo />
             <p className="text-sm leading-relaxed">Automotive parts matched to your exact vehicle.</p>
@@ -77,7 +77,7 @@ export default function StoreLayout({ children }: { children: React.ReactNode })
           </FooterCol>
         </div>
         <div className="border-t border-border">
-          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-5 text-xs">
+          <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4 sm:px-6 lg:px-10 py-5 text-xs">
             <span>© {storeName}. All rights reserved.</span>
             <span className="hidden sm:inline">Secure checkout by Stripe. Apple Pay accepted.</span>
           </div>

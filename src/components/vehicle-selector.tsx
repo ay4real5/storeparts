@@ -47,10 +47,7 @@ export function VehicleSelector({
     <div className="space-y-3">
       {current && (
         <p className="flex items-baseline justify-between gap-3 border-b border-border pb-3 text-sm">
-          <span>
-            <span className="text-muted">Your vehicle: </span>
-            <span className="font-medium">{vehicleLabel(current)}</span>
-          </span>
+          <span className="font-medium">{vehicleLabel(current)}</span>
           <button
             type="button"
             className="link shrink-0"

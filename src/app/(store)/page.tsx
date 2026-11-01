@@ -17,7 +17,7 @@ export default function HomePage() {
   return (
     <>
       <section className="border-b border-border bg-surface-2">
-        <div className="mx-auto grid max-w-7xl gap-10 px-4 py-10 sm:py-20 lg:grid-cols-[1fr_420px] lg:items-center lg:gap-24">
+        <div className="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:px-10 py-10 sm:py-20 lg:grid-cols-[1fr_420px] lg:items-center lg:gap-24">
           <div className="max-w-2xl">
             <h1 className="display text-[2.125rem] leading-[1.12] sm:text-[3.25rem]">
               Parts matched to the exact vehicle you drive.
@@ -40,7 +40,7 @@ export default function HomePage() {
       </section>
 
       <section className="border-b border-border">
-        <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-x-8 gap-y-6 px-4 py-8 sm:py-10 lg:grid-cols-4">
+        <dl className="mx-auto grid max-w-7xl grid-cols-2 gap-x-8 gap-y-6 px-4 sm:px-6 lg:px-10 py-8 sm:py-10 lg:grid-cols-4">
           {FACTS.map(([title, body]) => (
             <div key={title}>
               <dt className="text-sm font-medium">{title}</dt>
@@ -50,7 +50,7 @@ export default function HomePage() {
         </dl>
       </section>
 
-      <div className="mx-auto max-w-7xl space-y-14 px-4 py-12 sm:space-y-20 sm:py-20">
+      <div className="mx-auto max-w-7xl space-y-14 px-4 sm:px-6 lg:px-10 py-12 sm:space-y-20 sm:py-20">
         <Suspense fallback={<div className="h-32 animate-pulse bg-surface-2" />}>
           <Categories />
         </Suspense>

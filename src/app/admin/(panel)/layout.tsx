@@ -13,7 +13,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   return (
     <div className="flex flex-1 flex-col">
       <header className="border-b border-border bg-white">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-1 px-4 pt-3 lg:py-3">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-8 gap-y-1 px-4 sm:px-6 lg:px-10 pt-3 lg:py-3">
           <div className="flex items-baseline gap-2">
             <Logo href="/admin" />
             <span className="text-sm text-muted">Admin</span>
@@ -31,7 +31,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6 sm:py-10">{children}</main>
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 sm:px-6 lg:px-10 py-6 sm:py-10">{children}</main>
     </div>
   );
 }

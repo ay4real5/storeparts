@@ -1,8 +1,23 @@
-import { test, type Page, type TestInfo } from "@playwright/test";
+import { expect, test, type Page, type TestInfo } from "@playwright/test";
 
 // Full-page screenshots of the key pages for design review. CI uploads them as
-// the "screens" artifact; nothing is asserted here beyond the pages rendering.
+// the "screens" artifact. Each test also fails on any browser error, which
+// catches hydration mismatches the UI recovers from silently.
 const BASE_URL = process.env.E2E_BASE_URL ?? "http://localhost:3000";
+
+let browserErrors: string[] = [];
+
+test.beforeEach(({ page }) => {
+  browserErrors = [];
+  page.on("pageerror", (e) => browserErrors.push(e.message));
+  page.on("console", (m) => {
+    if (m.type() === "error") browserErrors.push(m.text());
+  });
+});
+
+test.afterEach(() => {
+  expect(browserErrors).toEqual([]);
+});
 
 async function shot(page: Page, info: TestInfo, name: string, path: string) {
   await page.goto(path);

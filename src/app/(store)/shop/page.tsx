@@ -14,7 +14,7 @@ export const metadata: Metadata = { title: "Shop parts" };
 
 export default function ShopPage(props: PageProps<"/shop">) {
   return (
-    <Suspense fallback={<div className="mx-auto h-96 max-w-7xl animate-pulse px-4 py-10" />}>
+    <Suspense fallback={<div className="mx-auto h-96 max-w-7xl animate-pulse px-4 sm:px-6 lg:px-10 py-10" />}>
       <Shop searchParams={props.searchParams} />
     </Suspense>
   );
@@ -69,13 +69,29 @@ async function Shop({ searchParams }: { searchParams: PageProps<"/shop">["search
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-7 sm:py-12">
-      <header className="mb-6 sm:mb-10">
-        <h1 className="display text-3xl sm:text-4xl">{q ? `Results for “${q}”` : (activeCategory?.name ?? "All parts")}</h1>
-        <p className="mt-2 text-muted">
-          {filterByVehicle ? `Parts for your ${vehicleLabel(vehicle)}` : "Full catalog"} · {products.length}{" "}
-          {products.length === 1 ? "part" : "parts"}
-        </p>
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-7 sm:py-12">
+      <header className="mb-6 flex flex-wrap items-end justify-between gap-x-8 gap-y-3 sm:mb-10">
+        <div>
+          <h1 className="display text-3xl sm:text-4xl">{q ? `Results for “${q}”` : (activeCategory?.name ?? "All parts")}</h1>
+          <p className="mt-2 text-muted">
+            {filterByVehicle ? `Parts for your ${vehicleLabel(vehicle)}` : "Full catalog"} · {products.length}{" "}
+            {products.length === 1 ? "part" : "parts"}
+          </p>
+        </div>
+        {(vehicle || q) && (
+          <div className="flex flex-wrap gap-x-6 gap-y-1 text-sm">
+            {q && (
+              <Link href={params({ q: null })} className="link">
+                Clear search
+              </Link>
+            )}
+            {vehicle && (
+              <Link href={params({ all: showAll ? null : "1" })} className="link">
+                {showAll ? "Only show parts that fit my vehicle" : "Include parts that do not fit"}
+              </Link>
+            )}
+          </div>
+        )}
       </header>
 
       <div className="grid gap-8 lg:grid-cols-[260px_1fr] lg:gap-14">
@@ -110,23 +126,6 @@ async function Shop({ searchParams }: { searchParams: PageProps<"/shop">["search
               ))}
             </div>
           )}
-          {(vehicle || q) && (
-            <div className="mb-6 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 text-sm">
-              {q ? (
-                <Link href={params({ q: null })} className="link">
-                  Clear search
-                </Link>
-              ) : (
-                <span />
-              )}
-              {vehicle && (
-                <Link href={params({ all: showAll ? null : "1" })} className="link">
-                  {showAll ? "Only show parts that fit my vehicle" : "Include parts that do not fit"}
-                </Link>
-              )}
-            </div>
-          )}
-
           {products.length === 0 ? (
             <div className="border-t border-border py-12">
               <p className="display text-xl">No parts match{filterByVehicle ? " your vehicle" : ""}</p>

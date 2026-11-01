@@ -30,7 +30,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
   if (!ready) return <div className="h-96 animate-pulse rounded-lg bg-surface" />;
   if (items.length === 0 && !started) {
     return (
-      <div className="mx-auto max-w-7xl px-4 py-14 sm:py-24">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-14 sm:py-24">
         <p className="display text-2xl">Your cart is empty.</p>
         <Link href="/shop" className="btn mt-6">
           Shop parts
@@ -110,7 +110,7 @@ export function CheckoutClient({ publishableKey, taxEnabled }: { publishableKey:
   const selectedRate = quote?.rates.find((r) => r.id === rateId);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-7 sm:py-12">
+    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 py-7 sm:py-12">
     <h1 className="display mb-6 text-3xl sm:mb-10 sm:text-4xl">Checkout</h1>
     <div className="grid gap-8 lg:grid-cols-[1fr_380px] lg:gap-14 [&>*]:min-w-0">
       <div className="space-y-8">
