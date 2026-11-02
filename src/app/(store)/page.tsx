@@ -10,7 +10,7 @@ import { VehicleSelector } from "@/components/vehicle-selector";
 
 const FACTS = [
   ["Confirmed fitment", "Every listing states the exact years, trims and engines it fits."],
-  ["Prompt dispatch", "Orders leave our warehouse within 1–2 business days."],
+  ["Prompt dispatch", "Orders leave our warehouse within 1⁠–⁠2 business days."],
   ["30-day returns", "If a part does not fit, return it from your order page."],
   ["Core refunds", "Send back your old part and we refund the deposit."],
 ];
@@ -84,8 +84,8 @@ export default function HomePage() {
       </div>
 
       <section className="bg-surface-2">
-        <div className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 sm:py-16 lg:grid-cols-[1fr_1.7fr_auto] lg:items-center lg:gap-16 lg:px-10">
-          <div className="flex items-baseline gap-3 self-start">
+        <div className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 sm:py-16 lg:grid-cols-[1fr_1.7fr_auto] lg:items-start lg:gap-16 lg:px-10">
+          <div className="flex items-baseline gap-3">
             <SectionIndex value="03" />
             <h2 className="display text-2xl sm:text-3xl">Core returns</h2>
           </div>
