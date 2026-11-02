@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 /*
- * One colour family: navy is the structure (header, hero, page titles, footer,
- * money panels) and white is the reading surface. Greys and text carry a slight
+ * One colour family: navy frames the site (header, angled panels, product
+ * blueprints, money panels, footer) and white is the reading surface. Greys and text carry a slight
  * navy tint. Green and red are reserved for fit and stock status. The store
  * ignores the OS dark setting so every customer sees the same design.
  */
@@ -77,9 +77,6 @@ body {
   /* For use on navy panels. */
   .btn-inverse {
     @apply inline-flex items-center justify-center gap-2 rounded-md bg-white px-5 py-2.5 text-sm font-medium text-accent transition-colors hover:bg-white/90;
-  }
-  .btn-outline-inverse {
-    @apply inline-flex items-center justify-center gap-2 rounded-md border border-white/40 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:border-white;
   }
   .link-inverse {
     @apply text-white underline decoration-white/40 underline-offset-4 transition-colors hover:decoration-white;

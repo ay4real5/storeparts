@@ -116,7 +116,7 @@ async function Product({ params }: { params: PageProps<"/shop/[slug]">["params"]
                   <img src={p.images[0].url} alt={p.images[0].alt || p.title} className="h-full w-full object-contain p-8" />
                 </div>
               ) : (
-                <PartArt hints={[p.category?.slug, p.title]} className="h-full w-full" />
+                <PartArt hints={[p.category?.slug, p.title]} label={`${p.sku} · Illustration`} className="h-full w-full" />
               )}
             </div>
             {p.images.length > 1 && (

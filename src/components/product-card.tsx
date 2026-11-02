@@ -10,6 +10,7 @@ export function ProductCard({
 }: {
   product: {
     slug: string;
+    sku: string;
     title: string;
     brand: string | null;
     priceCents: number;
@@ -34,7 +35,7 @@ export function ProductCard({
             <img src={img.url} alt={img.alt || product.title} className="h-full w-full object-contain p-3" loading="lazy" />
           </div>
         ) : (
-          <PartArt hints={[product.category?.slug, product.title]} className="h-full w-full" />
+          <PartArt hints={[product.category?.slug, product.title]} label={product.sku} className="h-full w-full" />
         )}
       </div>
 

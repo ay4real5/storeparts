@@ -112,21 +112,52 @@ const DRAWINGS: [RegExp, () => React.ReactNode][] = [
   [/suspens|strut|shock|spring/i, Strut],
 ];
 
-export function PartArt({ hints, className = "" }: { hints: (string | null | undefined)[]; className?: string }) {
+export function PartArt({
+  hints,
+  variant = "blueprint",
+  label,
+  className = "",
+}: {
+  hints: (string | null | undefined)[];
+  /** "blueprint" is a navy tile with center lines; "line" is the bare navy drawing. */
+  variant?: "blueprint" | "line";
+  /** Small title-block text in the corner of a blueprint, such as the part number. */
+  label?: string;
+  className?: string;
+}) {
   const text = hints.filter(Boolean).join(" ");
   const Drawing = DRAWINGS.find(([match]) => match.test(text))?.[1] ?? Generic;
-  return (
-    <div className={`flex items-center justify-center bg-accent ${className}`}>
+
+  if (variant === "line") {
+    return (
       <svg
         viewBox="0 0 120 120"
         aria-hidden
         fill="none"
         stroke="currentColor"
         strokeWidth="1"
-        className="h-3/5 w-3/5 text-white/60 [&_*]:[vector-effect:non-scaling-stroke]"
+        className={`text-accent/60 [&_*]:[vector-effect:non-scaling-stroke] ${className}`}
       >
         <Drawing />
       </svg>
+    );
+  }
+
+  return (
+    <div className={`relative flex items-center justify-center bg-accent ${className}`}>
+      <svg
+        viewBox="0 0 120 120"
+        aria-hidden
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        className="h-3/5 w-3/5 text-white/60 transition duration-500 group-hover:scale-[1.04] group-hover:text-white/90 [&_*]:[vector-effect:non-scaling-stroke]"
+      >
+        {/* Dash-dot center lines, as on an engineering drawing. */}
+        <path d="M60 0v120M0 60h120" strokeDasharray="9 3 1 3" opacity="0.35" />
+        <Drawing />
+      </svg>
+      {label && <span className="absolute right-2.5 bottom-2 left-2.5 truncate font-mono text-[10px] text-white/55">{label}</span>}
     </div>
   );
 }

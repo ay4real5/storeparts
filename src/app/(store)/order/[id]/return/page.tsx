@@ -56,7 +56,7 @@ async function Return({
         title="Return or core return"
         sub={`Returns are accepted within ${config.returnWindowDays} days of purchase; core returns within ${config.coreReturnWindowDays} days. Parts must be uninstalled and in original packaging unless defective.`}
       >
-        <Link href={`/order/${order.id}?token=${token}`} className="link-inverse">
+        <Link href={`/order/${order.id}?token=${token}`} className="link underline">
           Back to order {orderLabel(order.number)}
         </Link>
       </PageHeader>

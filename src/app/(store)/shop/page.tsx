@@ -78,12 +78,12 @@ async function Shop({ searchParams }: { searchParams: PageProps<"/shop">["search
         }`}
       >
         {q && (
-          <Link href={params({ q: null })} className="link-inverse">
+          <Link href={params({ q: null })} className="link underline">
             Clear search
           </Link>
         )}
         {vehicle && (
-          <Link href={params({ all: showAll ? null : "1" })} className="link-inverse">
+          <Link href={params({ all: showAll ? null : "1" })} className="link underline">
             {showAll ? "Only show parts that fit my vehicle" : "Include parts that do not fit"}
           </Link>
         )}

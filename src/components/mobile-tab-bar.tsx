@@ -26,7 +26,7 @@ export function MobileTabBar() {
   return (
     <nav
       aria-label="Main"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-accent pb-[env(safe-area-inset-bottom)] sm:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border bg-white pb-[env(safe-area-inset-bottom)] sm:hidden"
     >
       <ul className="grid grid-cols-4">
         {tabs.map(({ href, label, icon: Icon, match }) => {
@@ -35,12 +35,12 @@ export function MobileTabBar() {
             <li key={href}>
               <Link
                 href={href}
-                className={`flex flex-col items-center gap-1 py-2.5 text-[11px] ${active ? "font-medium text-white" : "text-white/60"}`}
+                className={`flex flex-col items-center gap-1 py-2.5 text-[11px] ${active ? "font-medium text-accent" : "text-muted"}`}
               >
                 <span className="relative">
                   <Icon className="h-5 w-5" strokeWidth={1.5} />
                   {href === "/cart" && hydrated && ready && count > 0 && (
-                    <span className="absolute -top-1.5 -right-2.5 flex h-4 min-w-4 items-center justify-center rounded-sm bg-white px-1 text-[10px] font-medium text-accent">
+                    <span className="absolute -top-1.5 -right-2.5 flex h-4 min-w-4 items-center justify-center rounded-sm bg-accent px-1 text-[10px] font-medium text-white">
                       {count}
                     </span>
                   )}

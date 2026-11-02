@@ -13,7 +13,7 @@ export default function ReturnsPage() {
         sub={
           <>
             Find your order to return a part or send back a core for your deposit refund. See the{" "}
-            <Link href="/policies#returns" className="link-inverse">
+            <Link href="/policies#returns" className="link underline">
               return policy
             </Link>
             .
